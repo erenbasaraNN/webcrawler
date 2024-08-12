@@ -1,4 +1,5 @@
 <?php
+
 namespace App\SiteHandlers;
 
 use App\Dom\OsmanliMirasCrawler;
@@ -7,10 +8,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 use Exception;
 
-class OsmanliMirasHandler implements SiteHandlerInterface {
+class OsmanliMirasHandler implements SiteHandlerInterface
+{
     private Client $client;
 
-    public function __construct(Client $client) {
+    public function __construct(Client $client)
+    {
         $this->client = $client;
     }
 
@@ -18,7 +21,8 @@ class OsmanliMirasHandler implements SiteHandlerInterface {
      * @throws GuzzleException
      * @throws Exception
      */
-    public function handle(string $url): array {
+    public function handle(string $url): array
+    {
         // Sayfayı yükle
         $html = $this->client->get($url);
         $domCrawler = new SymfonyCrawler($html);
@@ -44,22 +48,24 @@ class OsmanliMirasHandler implements SiteHandlerInterface {
             } catch (Exception $e) {
                 echo 'Error processing article: ' . $e->getMessage();
             }
+
         }
 
+        $crawler = new OsmanliMirasCrawler($domCrawler);
         // Cilt, Yıl ve Sayı bilgilerini çek
-        $volume = $this->extractData($domCrawler, 'h2:contains("Cilt")', 'Volume not found');
-        $year = $this->extractData($domCrawler, 'h2:contains("Yıl")', 'Year not found');
-        $number = $this->extractData($domCrawler, 'h2:contains("Sayı")', 'Number not found');
+
+        $x = ['volume' => $crawler->getVolume(),
+            'year' => $crawler->getYear(),
+            'number' => $crawler->getNumber()];
 
         return [
-            'volume' => $volume,
-            'year' => $year,
-            'number' => $number,
             'articles' => $articles,
+            'x' => $x
         ];
     }
 
-    private function processArticle(string $articleUrl): array {
+    private function processArticle(string $articleUrl): array
+    {
         // Makale sayfasını yükle
         $html = $this->client->get($articleUrl);
         $domCrawler = new SymfonyCrawler($html);
@@ -67,17 +73,19 @@ class OsmanliMirasHandler implements SiteHandlerInterface {
 
         // Verileri işle ve hataları yakala
         return [
-            'title' => $this->extractData($domCrawler, 'meta[name="citation_title"]', 'Title not found for URL: ' . $articleUrl),
+            'title' => $crawler->getTitle(),
             'abstract' => $crawler->getAbstract(),
             'keywords' => $crawler->getKeywords(),
             'pdf_url' => $crawler->getPdfUrl(),
             'firstpage' => $crawler->getFirstPage(),
             'lastpage' => $crawler->getLastPage(),
             'authors' => $crawler->getAuthors(),
+            'primary_language' => $crawler->getLanguage(),
         ];
     }
 
-    private function extractData(SymfonyCrawler $crawler, string $filter, string $errorMessage): string {
+    private function extractData(SymfonyCrawler $crawler, string $filter, string $errorMessage): string
+    {
         $node = $crawler->filter($filter);
 
         if ($node->count() === 0) {
@@ -86,4 +94,5 @@ class OsmanliMirasHandler implements SiteHandlerInterface {
 
         return trim($node->text());
     }
+
 }

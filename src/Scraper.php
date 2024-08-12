@@ -25,7 +25,7 @@ class Scraper {
         $data = $handler->handle($url);
 
         // Veriyi kontrol et
-        if (!isset($data['volume'], $data['year'], $data['number'], $data['articles'])) {
+        if (!$data['articles']) {
             throw new \Exception("Handler'dan dönen veri yapısı beklenilen formatta değil.");
         }
 

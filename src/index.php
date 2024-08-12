@@ -6,6 +6,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 use App\Scraper;
 use App\Xml\Generator;
 
+header('Content-Type: application/xml; charset=utf-8');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['url'])) {
     $url = trim($_POST['url']);
 

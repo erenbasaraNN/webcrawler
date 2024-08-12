@@ -31,6 +31,7 @@ class SiteTwoHandler implements SiteHandlerInterface {
             'year' => $year,
             'number' => $number,
             'articles' => $articles,
+
         ];
     }
 }

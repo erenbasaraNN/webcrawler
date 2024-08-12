@@ -18,25 +18,33 @@ class OsmanliMirasCrawler {
         }
     }
 
-    private function safeFilterAttr(string $selector, string $attribute): ?string {
+    public function safeFilterAttr(string $selector, string $attribute): ?string {
         try {
             return $this->crawler->filter($selector)->attr($attribute);
         } catch (\InvalidArgumentException $e) {
             return null;
         }
     }
-
-    public function getVolume(): ?string {
-        return $this->safeFilterText('h2:contains("Cilt")');
+    private function safeFilterTextXPath(string $xpath): ?string {
+        try {
+            return trim($this->crawler->filterXPath($xpath)->text());
+        } catch (\InvalidArgumentException $e) {
+            return null;
+        }
     }
 
     public function getYear(): ?string {
-        return $this->safeFilterText('h2:contains("Yıl")');
+        return $this->safeFilterTextXPath('//h1/b[contains(text(), "Yıl:")]/following-sibling::text()[1]');
+    }
+
+    public function getVolume(): ?string {
+        return $this->safeFilterTextXPath('//h1/b[contains(text(), "Cilt:")]/following-sibling::text()[1]');
     }
 
     public function getNumber(): ?string {
-        return $this->safeFilterText('h2:contains("Sayı")');
+        return $this->safeFilterTextXPath('//h1/b[contains(text(), "Sayı:")]/following-sibling::text()[1]');
     }
+
 
     public function getTitle(): ?string {
         return $this->safeFilterAttr('meta[name="citation_title"]', 'content');
@@ -62,7 +70,15 @@ class OsmanliMirasCrawler {
         return $this->safeFilterAttr('meta[name="citation_lastpage"]', 'content');
     }
 
-    public function getAuthors(): ?string {
-        return $this->safeFilterAttr('meta[name="citation_author"]', 'content');
+    public function getAuthors(): array {
+        $authors = [];
+        $this->crawler->filter('meta[name="citation_author"]')->each(function (SymfonyCrawler $node) use (&$authors) {
+            $authors[] = $node->attr('content');
+        });
+        return $authors;
     }
+    public function getLanguage(): ?string {
+        return $this->safeFilterAttr('meta[name="citation_language"]', 'content');
+    }
+
 }

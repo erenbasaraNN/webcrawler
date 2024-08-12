@@ -1,9 +1,248 @@
-<?xml version="1.0"?>
-<root>
+<?xml version="1.0" encoding="UTF-8"?>
+<issues>
   <issue>
-    <volume>Y&#x131;l:2024 &#xA0; Cilt: 11 &#xA0; Say&#x131;: 30 &#xA0; Alan: Edebiyat / Literature</volume>
-    <year>Y&#x131;l:2024 &#xA0; Cilt: 11 &#xA0; Say&#x131;: 30 &#xA0; Alan: Edebiyat / Literature</year>
-    <number>Y&#x131;l:2024 &#xA0; Cilt: 11 &#xA0; Say&#x131;: 30 &#xA0; Alan: Edebiyat / Literature</number>
-    <articles/>
+    <volume>11 </volume>
+    <year>2024</year>
+    <number>30</number>
+    <articles>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/turkolojideki-tarihi-metin-calismalarinda-bir-ronesansi-tetiklemek-metin-kodlama-girisimi-tei-ve-ilk-standartlastirilmis-osmanli-matematik-metni20240720073917.pdf</fulltext-file>
+        <firstpage>261</firstpage>
+        <lastpage>283</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>TRIGGERING A RENAISSANCE IN HISTORICAL TEXTUAL STUDIES IN TURCOLOGY: TEXT ENCODING INITIATIVE (TEI) AND THE INITIAL STANDARDISED OTTOMAN MATHEMATICS TEXT</title>
+            <abstract>This article seeks to answer a critical question about the impact of digital transformation, which global technological and digital developments have made a necessity, on historical textual studies in Turcology. The article draws attention to the need for digital transformation in historical textual studies and the lack of literature on the use of TEI in Turcology. The research considers historical textual studies as an object of digital cultural heritage, digital humanities, and digital scholarship. It is evaluated through the Text Encoding Initiative (TEI) standard. The aim is to establish a symbiotic relationship between historical textual studies and the Text Encoding Initiative (TEI) and offer a new perspective on the latest digital environment for studying Turkish manuscripts and the future of this research. It also explains how manuscripts (especially in the Ottoman field) should be encoded at TEI to enable interdisciplinary cooperation in digital editions. A case study of an 18th-century Ottoman mathematical text was encoded in TEI, and the process is explained in detail for those working in Turcology and those who want to do text editions with this method. The article's results are shared with the reader by presenting a Github link. These results constitute a new source for the international literature on digital encoding of historical texts and set standards for digital text editions to be used in historical text studies in Turcology. In this way, it aims to trigger a renaissance promoting the use of TEI in historical textual studies and to take the first step towards its eventual transformation into a renewed field of research.</abstract>
+            <keywords>Text Encoding Initiative (TEI), Digital historical text editions, Mathematics, Ottoman Turkish, Digital Ottoman Studies, Digital Turcology and Cultural Heritage</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Şermin KALAFAT</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/hirvat-yazar-ivan-mauraniin-ismail-cengic-aganin-olumu-eseri-ile-balkanlarda-turklerle-ilgili-algi-arasindaki-baglantilar20240720073802.pdf</fulltext-file>
+        <firstpage>285</firstpage>
+        <lastpage>298</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>HIRVAT YAZAR IVAN MAŽURANİĆ’İN “İSMAİL ÇENGİÇ AĞA’NIN ÖLÜMÜ” ESERİ İLE BALKANLAR’DA TÜRKLERLE İLGİLİ ALGI ARASINDAKİ BAĞLANTILAR</title>
+            <abstract>Ünlü Hırvat yazar ve siyasetçi İvan Mažuranić’in; Hırvat halk edebiyatından esinlenip gerçek tarihi değiştirerek yazdığı İsmail Çengiç Ağa’nın Ölümü adlı eser beş bölümden oluşmaktadır. Eserin konusu, Karadağ’ın meşhur Osmanlı Hersek Paşası İsmail Çengiç Ağa ile Grahovo kasabası yakınlarındaki Karadağ halkı arasında geçen küçük muharebedir. Eser, ana karakter İsmail Çengiç Ağa’nın “Ağalık”; Karadağlıların intikam hazırlıkları “Gececi”; intikam için toplanan askerlerin buluşması “Çete”; zalime karşı yapılan saldırı “Haraç” ve İsmail Çengiç Ağa’nın ölümden sonraki kaderinin anlatıldığı “Yazgı” bölümlerinden oluşmaktadır. Bu çalışmada eser, Türkçeye çevrilmiştir. Bu eser, halk diliyle yazıldığı için, yazar İvan Mažuranić’in siyasi konusu nedeniyle de gerçek tarih olarak kabul görmüş ve aslında tarihi belgelerde bir zorba olmayan İsmail Çengiç Ağa üzerinden Türklerle ilgili olumsuz algının kaynağı olmuştur. Çalışmanın Hırvatistan özelinde Balkanlar’da Türklerle ilgili yanlı ve yanlış algıların kaynağının sorgulanması açısından ilgili alanlara katkı sunacağı değerlendirilmektedir</abstract>
+            <keywords>Hırvat edebiyatı, İsmail Çengiç Ağa’nın ölümü, Türk algısı</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Demet KARDAŞ</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/xviiiyuzyil-sairi-faik-ve-sarihatip-zade-ailesine-mensubiyetiuzerine20240720073659.pdf</fulltext-file>
+        <firstpage>299</firstpage>
+        <lastpage>316</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>XVIII.YÜZYIL ŞAİRİ FÂİK VE SARIHATİP-ZÂDE AİLESİNE MENSUBİYETİÜZERİNE</title>
+            <abstract>XVIII. yüzyıl klasik Türk edebiyatı şairlerinden biri olan Fâik, hacimli sayılabilecek bir divana sahip olması bakımından dikkatleri çekmektedir. Ancak Fâik’in hayatına dair kaynaklarda yeterli bir bilgi bulunmamaktadır. Dolayısıyla kendisi hakkında edinilen malumatların ihtimalden öteye geçmediği görülmüştür. Fakat yaptığımız araştırmalar, Fâik’in Sivas’ın önde gelen eşrafından Sarıhatip-zâde ailesinin bir üyesi olabileceğini göstermiştir. Öyle ki elde edilen bilgiler, mezkûr aile ile bağlantı kurulmasına zemin hazırlamış ve bu bilgiler ışığında değerlendirmeler yapılmıştır. Çalışmanın giriş bölümünde, XVIII. yüzyılın siyasi ve edebî durumuna kısaca yer verildikten sonra, bu asırda yaşamış olan Fâik’in hayatı, sanatı ve Divan’ından bahsedilmiştir. Akabinde şairin Sivas’ın meşhur ailelerinden Sarıhatip-zâde ailesine mensup olduğunu gösteren karineler üzerinde durulmuştur. Bu bağlamda, 2011 yılında Sivas’ta düzenlenen Kültür Tarihimizde Sivaslı Bir Aile: Sarıhatipzadeler başlıklı sempozyumdaki bildiriler ile Fâik’in kardeşi Numân Sâbit’in (öl. 1768) mecmuası incelenmiştir. Elde edilen veriler ise başta şairin üslubu olmak üzere Divan’ındaki bazı hususiyetler ile karşılaştırılmıştır. Bu çalışmayla Fâik’in Sarıhatip-zâde ailesinin bir üyesi olduğuna dair kanıtlar bir araya getirilmiştir. Böylece ailenin en hacimli divanına sahip olan kayıp şairi Fâik’in gün yüzüne çıkartılması ve XVIII. yüzyıl klasik Türk edebiyatı sahasına yeni bir şairin kazandırılması hedeflenmiştir.</abstract>
+            <keywords>XVIII. Yüzyıl, Fâik, Mecmua, Sarıhatip-zâde Ailesi</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Mehmet Sait ÇALKA</author>
+          <author>Yunus DOLU</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/bahr-i-tarihten-bir-katre-tesrifatci-mehmed-salimin-manzumesi20240720073457.pdf</fulltext-file>
+        <firstpage>317</firstpage>
+        <lastpage>330</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>BAHR-İ TARİHTEN BİR KATRE: TEŞRİFATÇI MEHMED SALİM’İN MANZUMESİ</title>
+            <abstract>Belâgate dâhil edilen hünerlerden biri de tarih düşürme sanatıdır. Bu sanat sayesinde insan ve toplum hayatında önemli olan başta doğum, ölüm, evlenme, göreve atanma, görevden azil, bir bina inşası ve tamiri, savaşlar, barışlar, zaferler olmak üzere önemli görülen hemen her olaya mısra, beyit, kıta, gazel vb. manzumelerle tarih düşülmüştür. Arap alfabesine dayalı ebcet hesabı ile tarih düşürme geleneği Arap, Fars ve Türk şairleri tarafından sıklıkla kullanılmıştır. Tarih düşürmek şairlerin ustalıklarını ve hünerlerini gösterdikleri alanlardır. Çünkü hem tarihi tutturmaları hem de manzumede vezin, kafiye ve anlama riayet etmeleri gerekmektedir. Rakamların harflere gizlendiği, şifrelendiği çoğunlukla estetik kaygısı güdülen tarihleri tespit etmek bir olayın tescili anlamına gelir. Bu açıdan tarihi manzumeler hem tarihçiler hem de araştırmacılar için son derece önemlidir. Divan şairlerinin şiirlerinde bulunan oldukça zengin bir mirasın yanı sıra arşiv belgeleri içinde de dağınık vaziyette ebcetle yazılmış çok sayıda tarih manzumesi bulunmaktadır. Teşrifatçı Mehmed Salim Efendi’nin manzumesi de bunlardan biridir. Nizam-ı Cedid dönemi gemileriyle ilgili önemli bir tarih düşürme örneği olan bu belge, hem tarihî bir vesika, hem harp tarihi ve savaş edebiyatı açısından önemi haiz bir belgedir. Bu araştırmada doküman incelemesi yöntemi kullanılmıştır. Salim Efendi’nin bu manzumesi üzerinde yapılan incelemeler ile arşiv belgelerinin hem edebiyat, hem tarih ve hem de askerî çalışmalar için önemli olduğu bir kez daha ortaya çıkmıştır.</abstract>
+            <keywords>Türk-İslam Edebiyatı, Tarih düşürme, Osmanlı donanması, Gazi Hüseyin Paşa, Teşrifatçı Mehmed Salim</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Mehmet ŞAHİN</author>
+          <author>Encümen BAYRAM</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/tenkid-dergisindeki-edebiyat-elestirileri-ve-edebi-tartismalar20240720073339.pdf</fulltext-file>
+        <firstpage>331</firstpage>
+        <lastpage>350</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>TENKÎD DERGİSİNDEKİ EDEBİYAT ELEŞTİRİLERİ VE EDEBÎ TARTIŞMALAR</title>
+            <abstract>Tenkit, insan hayatının hemen her evresinde var olan ve esasen hayatın doğasında bulunan bir kavramdır. Tanpınar, insan hayatının merkezde olduğu dönemlerde tenkidin de sanatın merkezinde olduğunu vurgular ki bu da tenkit ve insan gerçeğinin ilişkisini gösterir. Buna bağlı olarak Tanzimat Fermanı ile birlikte insan hayatının merkeze alındığı edebî gelişimimizde de tenkit, klasik edebiyata kıyasla daha fazla etkili olmuştur. Tenkit başlı başına bir edebî tür olmuş, bu alanda farklı anlayışlar doğmuştur. Öyle ki bu isimle bir dergi dahi kurulmuştur. Tenkîd dergisi, Türk edebiyatında bu isimle çıkan ilk dergidir. İlk sayısı 4 Nisan 1910’da çıkan derginin imtiyaz sahibi Bezmi Nusret Kaygusuz’dur. Toplamda altı sayısı çıkan dergide çoğunlukla eleştiri yazıları yayımlansa da sayıca daha az olmakla birlikte, sayfalarında şiir ve hikâye gibi türlere de yer verildiği söylenebilir. Dergiyle ilgili oldukça az sayıda çalışma yapılmıştır ve var olanlar da daha çok tanıtmaya yönelik metinlerdir. Bu çalışmada Tenkîd dergisindeki edebî eleştiriler ve dergideki tartışmalar üzerinde durulmuştur. Buna göre dergide romantik eleştirinin baskın olduğu görülmüştür. Dergideki eleştirilerin büyük bir kısmı metinden çok sanatçıya yönelik olmakla birlikte bunlarda tarafsız da kalınamaz. Derginin eleştiri yazarları özellikle kendi döneminin genç sanatçılarına yönelik oldukça sert eleştirilerde bulunmuşlardır. Tartışmalarda, güncel edebî polemiklerde çoğunlukla taraf tutulduğu ve kendilerine yöneltilen eleştirilere yanıt verildiği görülmüştür. Çalışmanın amacı, derginin eleştiri mahiyetini ortaya koymak ve dergide tartışmaya sebebiyet veren konuları açıklığa kavuşturmakla birlikte misyonunu ne ölçüde karşıladığını sorgulamaktır.</abstract>
+            <keywords>Tenkîd dergisi, eleştiri, Bezmi Nusret Kaygusuz, Baha Tevfik, edebî tartışma</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Yasin YAVUZ</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/16yuzyildan-bilinmeyen-bir-arapca-turkce-manzum-sozlukelfiyye20240720073200.pdf</fulltext-file>
+        <firstpage>351</firstpage>
+        <lastpage>373</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>16.YÜZYILDAN BİLİNMEYEN BİR ARAPÇA-TÜRKÇE MANZUM SÖZLÜK:ELFİYYE</title>
+            <abstract>Sözlükler, Osmanlı edebî geleneğinde yabancı dil öğretimini kolaylaştırmak amacıyla kaleme alınan eserlerdir. Özellikle bu edebî geleneğin ifade kudretinin teşekkülü ve tekâmülünde önemli etkisi olan Arap ve Fars dillerinin öğretiminin asli bir ihtiyaca dönüşmesi sonucu zaman içinde artan bir ivmeyle birçok sözlük kaleme alınmıştır. Kahir ekseriyeti mensur olan bu eserler içinde kelimelerin daha kolay öğrenilmesine yardımcı olarak hafızada daha kalıcı hâle gelmesini sağlayan manzum sözlüklerin ayrı bir yeri vardır. Anadolu’da ilk örnekleri 13. yüzyıldan itibaren Arapça-Farsça olarak görülen manzum sözlükler -Osmanlı tebaasındaki farklı toplulukların dilleri için yazılmış olanları da olmakla birlikte- daha çok Arapça-Türkçe, Farsça-Türkçe veya Arapça-Farsça-Türkçe şeklinde yazılmıştır. Bu minvalde Arapça-Türkçe şeklinde tanzim edilen manzum sözlüklerden biri de hayatı hakkında biyografik kaynaklarda herhangi bir bilgiye tesadüf edilemeyen Tâlib mahlaslı bir şaire ait olan Elfiyye’dir. 1000/1591-92 yılında Peçuy’da telif edilen eser, 108 beyitlik mesnevi şekline sahip bir mukaddime ve huruf-ı heca tertibinde beyit sayısı 5 ile 29 arasında farklılık gösteren 47 kıtalık sözlük bölümünden müteşekkildir. Toplam beyit sayısı 718 olan eserde, 2650 civarında Arapça kelime veya ibarenin Türkçe karşılığına yer verilmiştir. Bu çalışmada şimdilik bilinen tek yazma nüshası Süleymaniye Kütüphanesinde Hacı Ali Saib Koleksiyonu 25 numarada kayıtlı olan Elfiyye’nin şekil ve muhteva özellikleri üzerinde durularak eserden seçilen bazı kıtaların çeviri yazılı metnine yer verilmiştir.</abstract>
+            <keywords>Klasik Türk edebiyatı, 16. yüzyıl, manzum sözlük, Tâlib, Elfiyye</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Yunus KAPLAN</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/arsivlerin-osmanli-doneminde-konstantin-sehrinin-anlasilmasi-ve-yeniden-insasina-katkisi20240720073047.pdf</fulltext-file>
+        <firstpage>375</firstpage>
+        <lastpage>395</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>THE CONTRIBUTION OF ARCHIVES TO UNDERSTANDING AND RECONSTRUCTING THE CITY OF CONSTANTINE DURING THE OTTOMAN PERIOD</title>
+            <abstract>This study explores the Ottoman archives to uncover the urban history and the architectural layout of Constantine, Algeria, focusing on the 'Daftar rusūmʾamlāk balad Qaṣanṭīna', a registry of property deeds from the 15th to the early 19th century. It provides detailed insights into property locations, functions, and ownership transactions, alongside the architectural and social roles of mosques (ǧāmaʿ), chapels (zāwiya), and educational institutions (madrasas). The research also examines the urban landscape through street and neighborhood toponymy, and delves into economic frameworks by analyzing market (sūq) and inn (funduq) networks, their placements, and specializations. Additionally, it includes an evaluation of public squares (raḥba and baṭḥa), offering a fragmented yet detailed mosaic of data that assists in reconstructing the urban quarters of Constantine during the specified period.</abstract>
+            <keywords>Constantine, Deeds, Ottoman Archives, rusūm al-amlāk</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Mouhieddine KHEROUATOU</author>
+          <author>Badia BELABED</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/osmanli-sefer-hazirliklari-sirasinda-toplanan-bazi-vergi-turleri-ve-1592-1617-yillari-arasinda-vergilerin-tahsilinde-yasanan-birtakim-aksakliklara-dair-tespitler20240720072924.pdf</fulltext-file>
+        <firstpage>397</firstpage>
+        <lastpage>411</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>OSMANLI SEFER HAZIRLIKLARI SIRASINDA TOPLANAN BAZI VERGİ TÜRLERİ VE 1592-1617 YILLARI ARASINDA VERGİLERİN TAHSİLİNDE YAŞANAN BİRTAKIM AKSAKLIKLARA DAİR TESPİTLER</title>
+            <abstract>Başlangıçta savaş gibi olağanüstü zamanlarda alınan avarız türü vergiler, 16. yüzyılın sonuna doğru sürekli hâle getirilmiştir. Osmanlı Devleti’nde ilk dönemlerde nüzül adı altında hububat cinsinden bir vergi alınırken seferlerin uzun sürmesi ve fazla cephe olması üzerine askerin diğer ihtiyaçları için sürsat, iştira, bedel-i kürekçi gibi yeni vergiler getirildi. Bu vergilerin yetersiz olması üzerine de insanın olduğu yerde doğal olarak sistemin aksaması mümkündür. Eşkıya grupları, vergi toplamakla görevli devlet memurları ve vergi vermemek için -haklı veya haksız- bahaneler bulan halk, vergi tahsilinin aksamasında önemli rol oynuyordu. Devlete alenen isyan eden şakilerin yanında vergi tahsili sırasında reayaya sıkıntı veren bir diğer grup da devlet memurlarıydı. Bunun dışında vergi memurları sefer olmadığı hâlde sefer olduğu bahanesiyle uydurma defterlerle para toplayarak da reayayı zor duruma sokmuşlardır. Vergi çeşitlendirilerek halktan sürekli ve ağır gelen vergiler alınması reayanın tepkilerine yol açmış, kimileri şaki gruplara katılmış, kimisi de vatanlarını terk ederek (cela-yı vatan) mukabelede bulunmuşlardır.</abstract>
+            <keywords>Osmanlı Devleti, 17. Yüzyıl, Vergi, Eşkıya, Savaş</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Ali SESLİKAYA</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/keskin-erkek-rusdiye-mektebi-1872-191320240720072750.pdf</fulltext-file>
+        <firstpage>413</firstpage>
+        <lastpage>438</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>KESKİN ERKEK RÜŞDİYE MEKTEBİ (1872-1913)</title>
+            <abstract>Sultan II. Mahmud döneminde temelleri atılan ve Türk eğitim tarihinde oldukça önemli bir yere sahip olan rüşdiye mektepleri askeri okulların ihtiyaç duyduğu nitelikli öğrencileri ve devlet dairelerinin memur ihtiyacına cevap vermek için teşkilatlandırılmıştır. Müfredatına dâhil ettiği tarih, coğrafya ve temel seviyede matematik dersleriyle modern anlamda eğitim vermeyi amaçlayan rüşdiye mekteplerinin gelişimi ve ülke geneline yayılışı çok yavaş olmuştur. Özellikle Sultan II. Abdülhamid devrinde başta devlet yöneticileri olmak üzere halkın artan ilgisi neticesinde öncelikle kent merkezleri olmak üzere birçok kazada rüşdiye mektebi inşa edilerek faaliyete geçmiştir. Bu çalışmada taşrada açılmış olan ve kendi içerisinde ayrı bir hikayesi olan ve bazı kaynaklarda Karabekir Rüşdiye Mektebi olarak da geçen Keskin Erkek Rüşdiye Mektebi ele alınmıştır. Çalışmada ilk olarak rüşdiye mekteplerinin kuruluş ve gelişim aşamaları kısaca ele alındıktan sonra Keskin Erkek Rüşdiye Mektebinin kuruluş aşaması ve yaşanan zorluklar incelenmiştir. Çalışmanın devamında ise mektepte verilen dersler, gerekli araç gereçlerin temini ve mektepte eğitim hayatını sürdüren öğrenciler üzerinde durulmuştur. Çalışmanın son bölümünde ise mektebin kuruluşundan itibaren muallimlik görevini yürüten ve nüfuzu sayesinde muallimlik görevi dışında bölgedeki çoğu işe müdahalesi söz konusu olan Yusuf Ziyaeddin Efendi merkezinde yaşanan muallim-i evvellik mücadelesi ve tayin süreçleri ele alınmıştır.</abstract>
+            <keywords>Osmanlı Devleti, Keskin, Rüşdiye Mektebi, Eğitim, Yusuf Ziyaedd</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Burak KOCAOĞLU</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/tophane-konferansina-giden-surecte-sarki-rumeli-vilayetinin-ilhakinin-diplomatik-boyutu-18-eylul-1885-5-kasim-188520240720072611.pdf</fulltext-file>
+        <firstpage>439</firstpage>
+        <lastpage>473</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>TOPHANE KONFERANSI’NA GİDEN SÜREÇTE ŞARKİ RUMELİ VİLAYETİNİN İLHAKININ DİPLOMATİK BOYUTU (18 EYLÜL 1885-5 KASIM 1885)</title>
+            <abstract>93 Harbi’ne son vermek amacıyla 3 Mart 1878 tarihinde Ayastefanos’ta yapılan ön antlaşma, “Büyük Slav Devleti”nin kuruluşunun ilanı niteliğindeydi. Ancak Büyük Güçler arasındaki çıkar çatışmaları, 13 Temmuz 1878 tarihli Berlin Antlaşması’nın imzalanmasına yol açtı. Bu antlaşma ise Bulgarları memnun etmedi. Berlin Antlaşması’nın imzalanmasıyla birlikte Ayastefanos Antlaşması’nın öngördüğü sınırlara ulaşmak için Bulgarların önünde iki hedef belirdi. Bunlardan ilki Makedonya, diğeri ise Şarki Rumeli Vilayeti idi. Söz konusu vilayetin 18 Eylül 1885 tarihinde ilhak edilmesi, Bulgarlar için bir hedefe ulaşıldığı anlamına gelmekteydi. II. Abdülhamid, Berlin Antlaşması’nın kendisine tanıdığı yetkiye dayanarak bölgeye asker gönderebilirdi. Ancak sultan bu kararı almadı. Meselenin çözümünde başvurduğu yöntem diplomasiydi. Padişah, Büyük Güçlerin temsilcileri ve Osmanlı yetkililerinin katılacağı bir konferansın düzenlenmesine karar verdi. Bu çalışmanın amacı, Şarki Rumeli Vilayetinin ilhakıyla bağlantılı olaylar silsilesinin yalnızca bir boyutunu incelemektir. Bu açıdan çalışmanın kapsamı vilayetin ilhak edildiği 18 Eylül 1885 tarihinden Tophane Konferansı’nın başladığı 5 Kasım 1885 tarihine kadardır. Çalışmanın ana kaynağını Osmanlı ve Bulgar arşiv belgeleri oluşturmaktadır.</abstract>
+            <keywords>Osmanlı Devleti, II. Abdülhamid, Şarki Rumeli, Bulgaristan Prensliği</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Ergün HASANOĞLU</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/1787-1792-osmanli-rus-ve-avusturya-savasinda-stratejik-bir-olusum-kuban-hanligi20240720072416.pdf</fulltext-file>
+        <firstpage>475</firstpage>
+        <lastpage>497</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>1787-1792 OSMANLI-RUS VE AVUSTURYA SAVAŞI’NDA STRATEJİK BİR OLUŞUM: KUBAN HANLIĞI</title>
+            <abstract>Rus Çarlığı’nın Kafkasya ve Balkanlar’a doğru yayılma planının bir sonucu olarak 1774 Küçük Kaynarca Antlaşması’ndan sonra bağımsız bir Kırım Hanlığı kuruldu. Rusya’nın Osmanlı Devleti aleyhine genişleme çabaları Bâbıâlî tarafından dikkatle takip ediliyordu. 1783 yılında Rusya’nın Kırım’ı ilhak etmesi iki devlet arasındaki gerilimi oldukça artırdı. Kırım’ın işgalinden dört yıl sonra 1787 yılında Osmanlı Devleti ve Rus Çarlığı arasında 18. yüzyılın son savaşı başladı. Osmanlı Devleti, Kırım’ın bağımsız olmasından sonra Kuzeydoğu Karadeniz topraklarındaki savunma hattını güçlendirme çalışmaları yapıyordu. 1787-1792 Osmanlı-Rus ve Avusturya Savaşı başladığında buradaki kabilelerin Rus tarafına geçmesini engellemek ve güçlü bir savunma yapabilmek için yeni bir strateji geliştirdi. Bu strateji doğrultusunda Kuban Hanlığını ihdas etti ve Kırım giraylarını bu hanlığın başına getirdi. Çalışmamız, Kuban Hanları olarak Kırım giraylarının Osmanlı İmparatorluğu’ndaki rollerini, Osmanlı ordusunda “sultan” olarak verdikleri son hizmetlerine odaklanarak incelemektedir. Bu çerçevede Osmanlı İmparatorluğu’nun askerî gücünü artırmak için yaptığı stratejik hamle bağlamında bölgede yaşayan toplulukların bu mücadeledeki rollerinin anlaşılması hedeflenmiştir. Makalemizde, bölgenin savaş öncesi durumu ve Kuban Hanlığını oluşturan Nogaylar hakkında kısaca bilgi verildi. Ardından Kuban Hanları Şahbaz Giray Sultan ve Baht Giray Sultan’ın 1787-1792 Osmanlı-Rus ve Avusturya Savaşı sırasındaki faaliyetleri anlatıldı. Kırım giraylarının Osmanlı ordusundaki hizmetleri, arşiv belgeleri, Osmanlı kronikleri ve araştırma eserlerinden istifade edilerek ele alındı.</abstract>
+            <keywords>Kuban Hanlığı, Şahbaz Giray, Baht Giray, Osmanlı Devleti, Rusya, Avusturya</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Ümmügülsüm Filiz BAYRAM</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/modernlesme-doneminde-osmanli-tasrasinda-muftu-olmak-milas-kazasi-muftuleri-1814-192220240720072125.pdf</fulltext-file>
+        <firstpage>499</firstpage>
+        <lastpage>521</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>MODERNLEŞME DÖNEMİNDE OSMANLI TAŞRASINDA MÜFTÜ OLMAK: MİLAS KAZASI MÜFTÜLERİ (1814-1922)</title>
+            <abstract>Çalışmada 1814-1922 yılları arasında Milas kazasında görev yapan müftüler kronolojik süreklilik ve değişim temelinde ele alınmış, görev süreleri ve değişme sebepleri üzerinde durulmuştur. Arşiv kaynaklarının verdiği imkânlara bağlı olarak Milas’ta müftülük yapan Mehmet Rüşdü Efendi (30 Mart 1891-28 Temmuz 1911) ile Mehmet Sadık Efendi (5 Kasım 1911-1 Kasım 1922) ayrıntılı ele alınmıştır. İstanbul Müftülüğü Meşihat Arşivi ve Osmanlı Arşivindeki defterler ve belgelerle vilayet ve devlet salnamelerine göre tahsilleri, kariyerleri ve mahallî işlevleri ortaya konulmuştur. Her ikisinin uzun yıllar görev yaptıkları, ilaveten çeşitli komisyon ve meclislerde başkan ve üye olarak görev aldıkları, geçici vekillikler ve dinî görevlerde bulundukları, önemli işlevleri yerine getirerek nüfuzlarını devam ettirdikleri tespit edilmiştir. II. Mahmut Dönemi’nde (1808-1839) müftülerin uygunsuz hareket ve icraat ile vefat gibi sebeplerle sık sık değiştirildikleri için kısa süreli görev yaptıkları, Abdülmecit döneminde (1839-1861) daha uzun süre görevde kaldıkları, değiştirilmelerinde vefatlarının ağırlıklı etkili olduğu, Abdülaziz (1861-1876) ve II.Abdülhamit (1876-1909) dönemlerinde seleflerine göre çok daha uzun süre görev yaptıkları, değiştirilmelerindeyine vefatların ağırlıklı etkili olduğu, 1910 yılına kadar ilmiye tahsisatından müftülük maaşı almadıkları görülmüştür. Kaza müftülerini ele alan çalışmaların yeterli sayıda olmamasını da dikkate alan araştırma, ağırlıklı olarak İstanbul Müftülüğü Meşihat Arşivi ve Osmanlı Arşivi belgeleri üzerine bina edilmiştir. İlaveten ilgili diğer kaynaklardan da yararlanılmıştır.</abstract>
+            <keywords>Hafız Mehmet Sadık Efendi, Mehmet Rüşdü Efendi, Milas, Müftü, Şeyhülislam</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Biray ÇAKMAK</author>
+          <author>Sadık SARISAMAN</author>
+        </authors>
+        <citations/>
+      </article>
+      <article>
+        <fulltext-file>https://www.osmanlimirasi.net/dergi/mehmet-serif-pasanin-ittihat-ve-terakki-cemiyeti-ve-donemin-kritik-olaylari-hakkindaki-dusunceleri-1909-191420240720072241.pdf</fulltext-file>
+        <firstpage>523</firstpage>
+        <lastpage>555</lastpage>
+        <primary-language>tr</primary-language>
+        <translations>
+          <translation>
+            <locale>tr</locale>
+            <title>MEHMET SHARIF PASHA’S THOUGHT ON THE COMITTEE OF UNION AND PROGRESS AND THE CRITICAL EVENTS OF THE PERIOD (1909-1914)</title>
+            <abstract>In the history of the Ottoman press, newspapers published in French are very important in terms of describing the political and social life of the period. In addition to reflecting the political developments of the Ottoman period, the French-language press also conveyed the views of European countries on the Ottoman state in a very detailed manner. Meşrutiyet (Mèchroutiette), the newspaper in question, was an opposition newspaper published in Paris by Mehmed Sharif Pasha. Mehmed Sharif Pasha, who had previously served as ambassador to Stockholm, was an active member of the Committee of Union and Progress (CUP) during the proclamation of the constitutional monarchy, but later had disagreements with the Committee and travelled to Paris. In the newspaper he published there, He was so critical of the CUP that his newspaper was denied entry to the country and its distributors were arrested. The newspaper, which was published between 1909 and 1914, included articles on the 1908 revolution, relations with European states, Ottoman debts, Ottoman-German rapprochement, the Tripolitan War, Albanian and Macedonian revolts, the Aegean islands, political assassinations and many other topics. The aim of this study is to shed light on the political environment of the period through the articles published by Mehmed Sharif Pasha in the Meşrutiyet newspaper.</abstract>
+            <keywords>Mehmed Sharif Pasha, The Journal of Mèchroutiette, Second Constitutional Monarchy, Opposition Press</keywords>
+          </translation>
+        </translations>
+        <authors>
+          <author>Onur ÇAPAR</author>
+        </authors>
+        <citations/>
+      </article>
+    </articles>
   </issue>
-</root>
+</issues>
