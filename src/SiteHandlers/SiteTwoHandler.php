@@ -24,13 +24,11 @@ class SiteTwoHandler implements SiteHandlerInterface {
         $volume = $crawler->getVolume();
         $year = $crawler->getYear();
         $number = $crawler->getNumber();
-        $articles = $crawler->getArticles();
 
         return [
             'volume' => $volume,
             'year' => $year,
             'number' => $number,
-            'articles' => $articles,
 
         ];
     }

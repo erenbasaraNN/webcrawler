@@ -2,7 +2,7 @@
 namespace App\Xml;
 
 use Exception;
-
+//expect
 class Generator {
     public function generate(array $data): string {
         $xml = new \SimpleXMLElement('<issues/>');
