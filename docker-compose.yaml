@@ -10,7 +10,7 @@ services:
       - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini # XDebug ayarlarını bağlamak için
     ports:
       - "8080:80"                          # Apache için HTTP port yönlendirmesi
-      - "42568:42568"
+      - "42655:42655"
     environment:
       XDEBUG_CONFIG: "client_host=host.docker.internal"
     networks:

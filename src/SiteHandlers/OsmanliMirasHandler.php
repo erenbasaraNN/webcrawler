@@ -21,13 +21,43 @@ class OsmanliMirasHandler implements SiteHandlerInterface
      * @throws GuzzleException
      * @throws Exception
      */
-    public function handle(string $url): array
-    {
-        // Sayfayı yükle
-        $html = $this->client->get($url);
-        $domCrawler = new SymfonyCrawler($html);
+    public function handle(string $url): array {
+        $issueLinks = $this->getIssueLinks($url);
 
-        // XPath ile makale linklerini çek
+        $allIssues = [];
+        foreach ($issueLinks as $issueLink) {
+            $issueData = $this->handleIssue($issueLink);
+            $allIssues[] = $issueData;
+        }
+
+        return $allIssues;
+    }
+
+
+    private function getIssueLinks(string $url): array
+    {
+        $html = $this->client->get($url);
+        $crawler = new SymfonyCrawler($html);
+
+        // XPath ile tüm issue linklerini toplar
+        $issueLinks = $crawler->filterXPath('//a[contains(@class, "sj-btnrecord")]')->each(function ($node) {
+            return $node->attr('href');
+        });
+
+        return $issueLinks;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    private function handleIssue(string $issueUrl): array
+    {
+        // Issue sayfasını yükle
+        $html = $this->client->get($issueUrl);
+        $domCrawler = new SymfonyCrawler($html);
+        $crawler = new OsmanliMirasCrawler($domCrawler, $this->client);
+
+        // Makale linklerini bulur
         $articleLinks = $domCrawler->filterXPath('//div[contains(@class, "sj-content")]//article//h3/a')->each(function ($node) {
             return $node->attr('href');
         });
@@ -48,19 +78,18 @@ class OsmanliMirasHandler implements SiteHandlerInterface
             } catch (Exception $e) {
                 echo 'Error processing article: ' . $e->getMessage();
             }
-
         }
 
-        $crawler = new OsmanliMirasCrawler($domCrawler);
         // Cilt, Yıl ve Sayı bilgilerini çek
-
-        $x = ['volume' => $crawler->getVolume(),
+        $issueData = [
+            'volume' => $crawler->getVolume(),
             'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber()];
+            'number' => $crawler->getNumber()
+        ];
 
         return [
             'articles' => $articles,
-            'x' => $x
+            'issueData' => $issueData
         ];
     }
 
@@ -69,7 +98,7 @@ class OsmanliMirasHandler implements SiteHandlerInterface
         // Makale sayfasını yükle
         $html = $this->client->get($articleUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new OsmanliMirasCrawler($domCrawler);
+        $crawler = new OsmanliMirasCrawler($domCrawler, $this->client);
 
         // Verileri işle ve hataları yakala
         return [
@@ -83,16 +112,4 @@ class OsmanliMirasHandler implements SiteHandlerInterface
             'primary_language' => $crawler->getLanguage(),
         ];
     }
-
-    private function extractData(SymfonyCrawler $crawler, string $filter, string $errorMessage): string
-    {
-        $node = $crawler->filter($filter);
-
-        if ($node->count() === 0) {
-            throw new Exception($errorMessage);
-        }
-
-        return trim($node->text());
-    }
-
 }

@@ -2,12 +2,15 @@
 namespace App\Dom;
 
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use App\Http\Client;
 
 class OsmanliMirasCrawler {
     private SymfonyCrawler $crawler;
+    private Client $client;
 
-    public function __construct(SymfonyCrawler $crawler) {
+    public function __construct(SymfonyCrawler $crawler, Client $client) {
         $this->crawler = $crawler;
+        $this->client = $client;
     }
 
     private function safeFilterText(string $selector): ?string {
@@ -25,6 +28,7 @@ class OsmanliMirasCrawler {
             return null;
         }
     }
+
     private function safeFilterTextXPath(string $xpath): ?string {
         try {
             return trim($this->crawler->filterXPath($xpath)->text());
@@ -44,7 +48,6 @@ class OsmanliMirasCrawler {
     public function getNumber(): ?string {
         return $this->safeFilterTextXPath('//h1/b[contains(text(), "Sayı:")]/following-sibling::text()[1]');
     }
-
 
     public function getTitle(): ?string {
         return $this->safeFilterAttr('meta[name="citation_title"]', 'content');
@@ -77,8 +80,8 @@ class OsmanliMirasCrawler {
         });
         return $authors;
     }
+
     public function getLanguage(): ?string {
         return $this->safeFilterAttr('meta[name="citation_language"]', 'content');
     }
-
 }

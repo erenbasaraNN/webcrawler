@@ -18,6 +18,7 @@ class Scraper {
      * @throws GuzzleException
      * @throws Exception
      */
+
     public function scrape(string $url): array {
         $domain = parse_url($url, PHP_URL_HOST);
         $handler = $this->getHandlerForDomain($domain);
@@ -25,8 +26,10 @@ class Scraper {
         $data = $handler->handle($url);
 
         // Veriyi kontrol et
-        if (!$data['articles']) {
-            throw new \Exception("Handler'dan dönen veri yapısı beklenilen formatta değil.");
+        foreach ($data as $issueData) {
+            if (!isset($issueData['articles']) || !isset($issueData['issueData'])) {
+                throw new \Exception("Handler'dan dönen veri yapısı beklenilen formatta değil. Issue URL: " . $url);
+            }
         }
 
         return $data;
