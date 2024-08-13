@@ -84,4 +84,17 @@ class OsmanliMirasCrawler {
     public function getLanguage(): ?string {
         return $this->safeFilterAttr('meta[name="citation_language"]', 'content');
     }
+    
+    // INGILIZCE KISIMLAR İÇİN EKLENDİ.
+    public function getEnglishTitle(): ?string {
+        return $this->safeFilterAttr('meta[name="DC.Title"]', 'content');
+    }
+
+    public function getEnglishAbstract(): ?string {
+        return $this->safeFilterTextXPath('/html/body/span/div[2]/div/main/div/div/div/div[1]/div/div/div[4]/div/p[1]/text()');
+    }
+
+    public function getEnglishKeywords(): ?string {
+        return $this->safeFilterTextXPath('/html/body/span/div[2]/div/main/div/div/div/div[1]/div/div/div[4]/div/p[2]/text()');
+    }
 }

@@ -110,6 +110,9 @@ class OsmanliMirasHandler implements SiteHandlerInterface
             'lastpage' => $crawler->getLastPage(),
             'authors' => $crawler->getAuthors(),
             'primary_language' => $crawler->getLanguage(),
+            'en_title' => $crawler->getEnglishTitle(),
+            'en_abstract' => $crawler->getEnglishAbstract(),
+            'en_keywords' => $crawler->getEnglishKeywords(),
         ];
     }
 }
