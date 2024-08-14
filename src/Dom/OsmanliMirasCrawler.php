@@ -76,7 +76,24 @@ class OsmanliMirasCrawler {
     public function getAuthors(): array {
         $authors = [];
         $this->crawler->filter('meta[name="citation_author"]')->each(function (SymfonyCrawler $node) use (&$authors) {
-            $authors[] = $node->attr('content');
+            // Citation author içeriklerini alıyoruz
+            $authorText = $node->attr('content');
+
+            // Eğer yazarlar virgülle ayrılmışsa, onları bölüyoruz
+            $individualAuthors = explode(',', $authorText);
+
+            foreach ($individualAuthors as $author) {
+                $author = trim($author);
+                $nameParts = explode(' ', $author);
+                $lastName = array_pop($nameParts); // Son kısmı soyadı olarak alıyoruz
+                $firstName = implode(' ', $nameParts); // Geri kalanı adı oluşturuyor
+
+                // İsim ve soyisimleri yazarlar listesine ekliyoruz
+                $authors[] = [
+                    'firstname' => $firstName,
+                    'lastname' => $lastName,
+                ];
+            }
         });
         return $authors;
     }

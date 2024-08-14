@@ -7,14 +7,14 @@ class Generator {
     public function generate(array $data): string {
         $xml = new \SimpleXMLElement('<issues/>');
 
-        // Her bir issue için bir "issue" elemanı oluştur
+        // Loop through each issue to create an "issue" element
         foreach ($data as $issueData) {
             $issue = $xml->addChild('issue');
 
             // Volume, Year, Number
-            $issue->addChild('volume', htmlspecialchars($issueData['issueData']['volume'] ?? 'BURAYI DOLDUR'));
-            $issue->addChild('year', htmlspecialchars($issueData['issueData']['year'] ?? 'BURAYI DOLDUR'));
-            $issue->addChild('number', htmlspecialchars($issueData['issueData']['number'] ?? 'BURAYI DOLDUR'));
+            $issue->addChild('volume', htmlspecialchars($issueData['issueData']['volume'] ?? ''));
+            $issue->addChild('year', htmlspecialchars($issueData['issueData']['year'] ?? ''));
+            $issue->addChild('number', htmlspecialchars($issueData['issueData']['number'] ?? ''));
 
             // Articles
             $articlesElement = $issue->addChild('articles');
@@ -26,10 +26,10 @@ class Generator {
                 }
 
                 $articleElement = $articlesElement->addChild('article');
-                $articleElement->addChild('fulltext-file', htmlspecialchars($articleData['pdf_url']));
-                $articleElement->addChild('firstpage', htmlspecialchars($articleData['firstpage'] ?? 'BURAYI DOLDUR'));
-                $articleElement->addChild('lastpage', htmlspecialchars($articleData['lastpage'] ?? 'BURAYI DOLDUR'));
-                $articleElement->addChild('primary-language', htmlspecialchars($articleData['primary_language'] ?? 'BURAYI DOLDUR'));
+                $articleElement->addChild('fulltext-file', htmlspecialchars($articleData['pdf_url'] ?? ''));
+                $articleElement->addChild('firstpage', htmlspecialchars($articleData['firstpage'] ?? ''));
+                $articleElement->addChild('lastpage', htmlspecialchars($articleData['lastpage'] ?? ''));
+                $articleElement->addChild('primary-language', htmlspecialchars($articleData['primary_language'] ?? ''));
 
                 // Translations
                 $translationsElement = $articleElement->addChild('translations');
@@ -37,30 +37,31 @@ class Generator {
                 // Turkish Translation
                 $translationElement = $translationsElement->addChild('translation');
                 $translationElement->addChild('locale', 'tr'); // Assuming 'tr' as locale
-                $translationElement->addChild('title', htmlspecialchars($articleData['title'] ?? 'BURAYI DOLDUR'));
-                $translationElement->addChild('abstract', htmlspecialchars($articleData['abstract'] ?? 'BURAYI DOLDUR'));
-                $translationElement->addChild('keywords', htmlspecialchars($articleData['keywords'] ?? 'BURAYI DOLDUR'));
+                $translationElement->addChild('title', htmlspecialchars($articleData['title'] ?? ''));
+                $translationElement->addChild('abstract', htmlspecialchars($articleData['abstract'] ?? ''));
+                $translationElement->addChild('keywords', htmlspecialchars($articleData['keywords'] ?? ''));
 
                 // English Translation (only if en_title is not empty)
                 if (!empty($articleData['en_title'])) {
                     $translationElement = $translationsElement->addChild('translation');
                     $translationElement->addChild('locale', 'en'); // Assuming 'en' as locale
-                    $translationElement->addChild('title', htmlspecialchars($articleData['en_title']));
-                    $translationElement->addChild('abstract', htmlspecialchars($articleData['en_abstract'] ?? 'BURAYI DOLDUR'));
-                    $translationElement->addChild('keywords', htmlspecialchars($articleData['en_keywords'] ?? 'BURAYI DOLDUR'));
+                    $translationElement->addChild('title', htmlspecialchars($articleData['en_title'] ?? ''));
+                    $translationElement->addChild('abstract', htmlspecialchars($articleData['en_abstract'] ?? ''));
+                    $translationElement->addChild('keywords', htmlspecialchars($articleData['en_keywords'] ?? ''));
                 }
-
-                // Authors
+                //Authors
+                $authorsElement = $articleElement->addChild('authors');
                 if (!empty($articleData['authors'])) {
-                    $authorsElement = $articleElement->addChild('authors');
                     foreach ($articleData['authors'] as $author) {
-                        $authorsElement->addChild('author', htmlspecialchars($author));
+                        $authorElement = $authorsElement->addChild('author');
+                        $authorElement->addChild('firstname', htmlspecialchars($author['firstname'] ?? ''));
+                        $authorElement->addChild('lastname', htmlspecialchars($author['lastname'] ?? ''));
                     }
                 } else {
-                    $articleElement->addChild('authors', 'BURAYI DOLDUR');
+                    $authorsElement->addChild('author', 'BURAYI DOLDUR');
                 }
 
-                // Citations - Assuming citations data is available
+                // Citations
                 $citationsElement = $articleElement->addChild('citations');
                 if (!empty($articleData['citations'])) {
                     foreach ($articleData['citations'] as $index => $citation) {
@@ -79,5 +80,3 @@ class Generator {
         return $dom->saveXML();
     }
 }
-
-

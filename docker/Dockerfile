@@ -30,9 +30,6 @@ COPY ./src /var/www/html
 # Composer bağımlılıklarını kuruyoruz
 RUN composer install --no-dev --optimize-autoloader
 
-# XDebug yapılandırma dosyasını kopyalıyoruz
-COPY ./docker/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
 # Apache varsayılan root klasörünü ayarlıyoruz (isteğe bağlı)
 # Bu adım `COPY ./src /var/www/html` ile birlikte zaten yapıldı
 

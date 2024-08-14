@@ -70,7 +70,7 @@ class OsmanliMirasHandler implements SiteHandlerInterface
         // Her bir makale linkini işleyerek verileri kaydet
         $articles = [];
         foreach ($articleLinks as $link) {
-            $fullUrl = str_starts_with($link, 'http') ? $link : 'https://www.osmanlimirasi.net' . $link;
+            $fullUrl = str_starts_with($link, 'http') ? $link : 'https://globalmediajournaltr.yeditepe.edu.tr' . $link;
 
             // Makale verilerini işleme ve hataları yakalama
             try {

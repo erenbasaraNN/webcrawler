@@ -2,7 +2,7 @@
 namespace App;
 
 use App\SiteHandlers\OsmanliMirasHandler;
-use App\SiteHandlers\SiteTwoHandler;
+use App\SiteHandlers\YeditepeHandler;
 use App\Http\Client;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
@@ -38,11 +38,11 @@ class Scraper {
     /**
      * @throws Exception
      */
-    private function getHandlerForDomain(string $domain): SiteTwoHandler|OsmanliMirasHandler
+    private function getHandlerForDomain(string $domain): YeditepeHandler|OsmanliMirasHandler
     {
         return match ($domain) {
             'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
-            'www.example.com' => new SiteTwoHandler($this->client),
+            'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
             default => throw new Exception("Domain için uygun bir handler bulunamadı: " . $domain),
         };
     }

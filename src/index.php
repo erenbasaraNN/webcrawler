@@ -1,6 +1,5 @@
 
 <?php
-header('Content-Type: application/xml; charset=utf-8');
 require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Scraper;

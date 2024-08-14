@@ -7,12 +7,11 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./src:/var/www/html                # PHP kaynak kodlarınızı bağlamak için
-      - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini # XDebug ayarlarını bağlamak için
+      - ./docker/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini # XDebug ayarlarını bağlamak için
     ports:
       - "8080:80"                          # Apache için HTTP port yönlendirmesi
-      - "42655:42655"
     environment:
-      XDEBUG_CONFIG: "client_host=host.docker.internal"
+      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=42815"
     networks:
       - webnet
 
