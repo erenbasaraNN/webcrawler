@@ -2,15 +2,13 @@
 namespace App\Dom;
 
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
-use App\Http\Client;
+
 
 class OsmanliMirasCrawler {
     private SymfonyCrawler $crawler;
-    private Client $client;
 
-    public function __construct(SymfonyCrawler $crawler, Client $client) {
+    public function __construct(SymfonyCrawler $crawler) {
         $this->crawler = $crawler;
-        $this->client = $client;
     }
 
     private function safeFilterText(string $selector): ?string {

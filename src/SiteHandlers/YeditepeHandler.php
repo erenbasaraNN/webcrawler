@@ -76,15 +76,12 @@ class YeditepeHandler implements SiteHandlerInterface
             $articles[] = $this->processArticle($articleCrawler);
         }
 
-        $issueData = [
-            'volume' => $crawler->getVolume(),
-            'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber()
-        ];
 
         return [
             'articles' => $articles,
-            'issueData' => $issueData
+            'volume' => $crawler->getVolume(),
+            'year' => $crawler->getYear(),
+            'number' => $crawler->getNumber()
         ];
     }
 

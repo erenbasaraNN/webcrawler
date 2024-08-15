@@ -6,11 +6,9 @@ use App\Http\Client;
 
 class YeditepeCrawler {
     private SymfonyCrawler $crawler;
-    private Client $client;
 
-    public function __construct(SymfonyCrawler $crawler, Client $client) {
+    public function __construct(SymfonyCrawler $crawler) {
         $this->crawler = $crawler;
-        $this->client = $client;
     }
 
     public function getTitle(SymfonyCrawler $row): ?string {

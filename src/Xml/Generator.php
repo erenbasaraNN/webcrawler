@@ -25,7 +25,7 @@ class Generator {
                 $skippedIssues[] = [
                     'volume' => $issueData['volume'] ?? 'Unknown',
                     'year' => $issueData['year'] ?? 'Unknown',
-                    'number' => $issueData['number'] ?? 'Unknown'
+                    'number' => $issueData['number'] ?? 'Özel Sayı'
                 ];
                 continue; // Skip the current issue
             }
@@ -36,7 +36,7 @@ class Generator {
             // Volume, Year, Number
             $issue->addChild('volume', htmlspecialchars($issueData['volume'] ?? ''));
             $issue->addChild('year', htmlspecialchars($issueData['year'] ?? ''));
-            $issue->addChild('number', htmlspecialchars($issueData['number'] ?? ''));
+            $issue->addChild('number', htmlspecialchars($issueData['number'] ?? 'Özel Sayı'));
 
             // Articles
             $articlesElement = $issue->addChild('articles');

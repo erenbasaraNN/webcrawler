@@ -81,15 +81,12 @@ class OsmanliMirasHandler implements SiteHandlerInterface
         }
 
         // Cilt, Yıl ve Sayı bilgilerini çek
-        $issueData = [
-            'volume' => $crawler->getVolume(),
-            'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber()
-        ];
 
         return [
             'articles' => $articles,
-            'issueData' => $issueData
+            'volume' => $crawler->getVolume(),
+            'year' => $crawler->getYear(),
+            'number' => $crawler->getNumber()
         ];
     }
 
