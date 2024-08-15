@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\SiteHandlers\azjmHandler;
 use App\SiteHandlers\OsmanliMirasHandler;
 use App\SiteHandlers\PsikologHandler;
 use App\Http\Client;
@@ -41,6 +42,7 @@ class Scraper {
             'psikolog.org.tr' => new PsikologHandler($this->client),
             'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
             'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
+            'azjm.org' => new azjmHandler($this->client),
             default => throw new \Exception("No handler found for domain: " . $domain),
         };
     }
@@ -51,6 +53,7 @@ class Scraper {
             'www.osmanlimirasi.net' => 'osmanlimirasi.xml',
             'globalmediajournaltr.yeditepe.edu.tr' => 'yeditepe.xml',
             'psikolog.org.tr' => 'psikolog.xml',
+            'azjm.org' => 'azjm.xml',
             default => 'output.xml',
         };
     }
