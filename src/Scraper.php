@@ -46,4 +46,13 @@ class Scraper {
             default => throw new Exception("Domain için uygun bir handler bulunamadı: " . $domain),
         };
     }
+    public function getOutputForDomain(string $url): string
+    {
+        $domain = parse_url($url, PHP_URL_HOST);
+        return match ($domain) {
+            'www.osmanlimirasi.net' => 'osmanlimirasi.xml',
+            'globalmediajournaltr.yeditepe.edu.tr' => 'yeditepe.xml',
+            default => 'output.xml',
+        };
+    }
 }

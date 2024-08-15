@@ -6,15 +6,6 @@
         <option name="myPath" value="$PROJECT_DIR$" />
       </PhpSpecSuiteConfiguration>
       <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$" />
-      </PhpSpecSuiteConfiguration>
-      <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$" />
-      </PhpSpecSuiteConfiguration>
-      <PhpSpecSuiteConfiguration>
-        <option name="myPath" value="$PROJECT_DIR$/src" />
-      </PhpSpecSuiteConfiguration>
-      <PhpSpecSuiteConfiguration>
         <option name="myPath" value="$PROJECT_DIR$/src" />
       </PhpSpecSuiteConfiguration>
     </suites>
