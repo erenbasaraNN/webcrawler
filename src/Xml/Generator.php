@@ -6,29 +6,45 @@ use Exception;
 class Generator {
     public function generate(array $data): string {
         $xml = new \SimpleXMLElement('<issues/>');
+        $skippedIssues = []; // Array to store skipped issues
 
         // Loop through each issue to create an "issue" element
         foreach ($data as $issueData) {
+            $skipIssue = false;
+
+            // Check if any article in the issue has a missing PDF URL
+            foreach ($issueData['articles'] as $articleData) {
+                if (empty($articleData['pdf_url'])) {
+                    $skipIssue = true;
+                    break; // Skip the entire issue if any article is missing a PDF URL
+                }
+            }
+
+            // If any article is missing a PDF URL, skip the entire issue
+            if ($skipIssue) {
+                $skippedIssues[] = [
+                    'volume' => $issueData['volume'] ?? 'Unknown',
+                    'year' => $issueData['year'] ?? 'Unknown',
+                    'number' => $issueData['number'] ?? 'Unknown'
+                ];
+                continue; // Skip the current issue
+            }
+
+            // Add the issue to the XML if all articles have valid PDF URLs
             $issue = $xml->addChild('issue');
 
             // Volume, Year, Number
-            $issue->addChild('volume', htmlspecialchars($issueData['issueData']['volume'] ?? ''));
-            $issue->addChild('year', htmlspecialchars($issueData['issueData']['year'] ?? ''));
-            $issue->addChild('number', htmlspecialchars($issueData['issueData']['number'] ?? ''));
+            $issue->addChild('volume', htmlspecialchars($issueData['volume'] ?? ''));
+            $issue->addChild('year', htmlspecialchars($issueData['year'] ?? ''));
+            $issue->addChild('number', htmlspecialchars($issueData['number'] ?? ''));
 
             // Articles
             $articlesElement = $issue->addChild('articles');
             foreach ($issueData['articles'] as $articleData) {
-
-                // Skip this article if fulltext-file is null or empty
-                if (empty($articleData['pdf_url'])) {
-                    continue;
-                }
-
                 $articleElement = $articlesElement->addChild('article');
                 $articleElement->addChild('fulltext-file', htmlspecialchars($articleData['pdf_url'] ?? ''));
-                $articleElement->addChild('firstpage', htmlspecialchars($articleData['firstpage'] ?? ''));
-                $articleElement->addChild('lastpage', htmlspecialchars($articleData['lastpage'] ?? ''));
+                $articleElement->addChild('firstpage', htmlspecialchars($articleData['firstPage'] ?? ''));
+                $articleElement->addChild('lastpage', htmlspecialchars($articleData['lastPage'] ?? ''));
                 $articleElement->addChild('primary-language', htmlspecialchars($articleData['primary_language'] ?? ''));
 
                 // Translations
@@ -49,13 +65,14 @@ class Generator {
                     $translationElement->addChild('abstract', htmlspecialchars($articleData['en_abstract'] ?? ''));
                     $translationElement->addChild('keywords', htmlspecialchars($articleData['en_keywords'] ?? ''));
                 }
-                //Authors
+
+                // Authors
                 $authorsElement = $articleElement->addChild('authors');
                 if (!empty($articleData['authors'])) {
                     foreach ($articleData['authors'] as $author) {
                         $authorElement = $authorsElement->addChild('author');
-                        $authorElement->addChild('firstname', htmlspecialchars($author['firstname'] ?? ''));
-                        $authorElement->addChild('lastname', htmlspecialchars($author['lastname'] ?? ''));
+                        $authorElement->addChild('firstname', htmlspecialchars($author['firstName'] ?? ''));
+                        $authorElement->addChild('lastname', htmlspecialchars($author['lastName'] ?? ''));
                     }
                 } else {
                     $authorsElement->addChild('author', 'BURAYI DOLDUR');
@@ -70,6 +87,17 @@ class Generator {
                         $citationElement->addChild('value', htmlspecialchars($citation ?? ''));
                     }
                 }
+            }
+        }
+
+        // Add a section for skipped issues at the end of the XML
+        if (!empty($skippedIssues)) {
+            $skippedElement = $xml->addChild('skipped_issues');
+            foreach ($skippedIssues as $skippedIssue) {
+                $issueElement = $skippedElement->addChild('issue');
+                $issueElement->addChild('volume', htmlspecialchars($skippedIssue['volume']));
+                $issueElement->addChild('year', htmlspecialchars($skippedIssue['year']));
+                $issueElement->addChild('number', htmlspecialchars($skippedIssue['number']));
             }
         }
 

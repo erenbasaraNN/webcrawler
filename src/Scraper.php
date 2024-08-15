@@ -2,7 +2,7 @@
 namespace App;
 
 use App\SiteHandlers\OsmanliMirasHandler;
-use App\SiteHandlers\YeditepeHandler;
+use App\SiteHandlers\PsikologHandler;
 use App\Http\Client;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
@@ -26,11 +26,7 @@ class Scraper {
         $data = $handler->handle($url);
 
         // Veriyi kontrol et
-        foreach ($data as $issueData) {
-            if (!isset($issueData['articles']) || !isset($issueData['issueData'])) {
-                throw new \Exception("Handler'dan dönen veri yapısı beklenilen formatta değil. Issue URL: " . $url);
-            }
-        }
+
 
         return $data;
     }
@@ -38,11 +34,12 @@ class Scraper {
     /**
      * @throws Exception
      */
-    private function getHandlerForDomain(string $domain): YeditepeHandler|OsmanliMirasHandler
+    private function getHandlerForDomain(string $domain): PsikologHandler|OsmanliMirasHandler
     {
         return match ($domain) {
             'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
-            'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
+            'globalmediajournaltr.yeditepe.edu.tr' => new PsikologHandler($this->client),
+            'psikolog.org.tr' => new PsikologHandler($this->client),
             default => throw new Exception("Domain için uygun bir handler bulunamadı: " . $domain),
         };
     }
@@ -52,6 +49,7 @@ class Scraper {
         return match ($domain) {
             'www.osmanlimirasi.net' => 'osmanlimirasi.xml',
             'globalmediajournaltr.yeditepe.edu.tr' => 'yeditepe.xml',
+            'psikolog.org.tr' => 'psikolog.xml',
             default => 'output.xml',
         };
     }
