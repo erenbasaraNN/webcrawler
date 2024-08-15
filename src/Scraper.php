@@ -1,11 +1,11 @@
 <?php
 namespace App;
 
-use App\SiteHandlers\azjmHandler;
+use App\SiteHandlers\AzjmHandler;
 use App\SiteHandlers\OsmanliMirasHandler;
 use App\SiteHandlers\PsikologHandler;
-use App\Http\Client;
 use App\SiteHandlers\YeditepeHandler;
+use App\Http\Client;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -20,7 +20,6 @@ class Scraper {
      * @throws GuzzleException
      * @throws Exception
      */
-
     public function scrape(string $url): array {
         $domain = parse_url($url, PHP_URL_HOST);
         $handler = $this->getHandlerForDomain($domain);
@@ -29,23 +28,23 @@ class Scraper {
 
         // Veriyi kontrol et
 
-
         return $data;
     }
 
     /**
      * @throws Exception
      */
-    private function getHandlerForDomain(string $domain): PsikologHandler|OsmanliMirasHandler|YeditepeHandler
+    private function getHandlerForDomain(string $domain): PsikologHandler|OsmanliMirasHandler|YeditepeHandler|AzjmHandler
     {
         return match ($domain) {
             'psikolog.org.tr' => new PsikologHandler($this->client),
             'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
             'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
-            'azjm.org' => new azjmHandler($this->client),
+            'azjm.org' => new AzjmHandler($this->client),
             default => throw new \Exception("No handler found for domain: " . $domain),
         };
     }
+
     public function getOutputForDomain(string $url): string
     {
         $domain = parse_url($url, PHP_URL_HOST);
