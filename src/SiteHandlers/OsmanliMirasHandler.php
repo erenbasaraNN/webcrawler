@@ -2,7 +2,7 @@
 
 namespace App\SiteHandlers;
 
-use App\Dom\OsmanliMirasCrawler;
+use App\Crawlers\OsmanliMirasCrawler;
 use App\Http\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;

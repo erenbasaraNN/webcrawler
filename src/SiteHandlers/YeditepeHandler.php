@@ -1,7 +1,7 @@
 <?php
 namespace App\SiteHandlers;
 
-use App\Dom\YeditepeCrawler;
+use App\Crawlers\YeditepeCrawler;
 use App\Http\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;

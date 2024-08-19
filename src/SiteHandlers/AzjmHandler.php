@@ -1,7 +1,7 @@
 <?php
 namespace App\SiteHandlers;
 
-use App\Dom\AzjmCrawler;
+use App\Crawlers\AzjmCrawler;
 use App\Http\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;

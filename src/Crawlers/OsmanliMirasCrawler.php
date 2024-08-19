@@ -1,5 +1,5 @@
 <?php
-namespace App\Dom;
+namespace App\Crawlers;
 
 use InvalidArgumentException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
