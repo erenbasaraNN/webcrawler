@@ -4,7 +4,7 @@ namespace App\Crawlers;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 use App\Scraper;
 
-class PsikologCrawler {
+class PsikologCrawler extends BaseCrawler {
     private SymfonyCrawler $crawler;
     private Scraper $scraper;
     public function __construct(SymfonyCrawler $crawler) {
@@ -38,20 +38,15 @@ class PsikologCrawler {
     }
 
 
-    public function getPdfUrls(SymfonyCrawler $row): ?string {
-        // Türkçe PDF'i kontrol et
+    public function getPdfUrl(SymfonyCrawler $row): ?string {
         $turkishPdfPath = $row->filter('a[title="TÜRKÇE PDF"]')->count() ? $row->filter('a[title="TÜRKÇE PDF"]')->attr('href') : null;
-        // İngilizce PDF'i kontrol et
         $englishPdfPath = $row->filter('a[title="İNGİLİZCE PDF"]')->count() ? $row->filter('a[title="İNGİLİZCE PDF"]')->attr('href') : null;
 
-        // Eğer ikisi de yoksa null döndür
         if (!$turkishPdfPath && !$englishPdfPath) {
             return null;
         }
 
-        // PDF linklerini temizle
         $cleanPdfPath = function($path) {
-            // '..' içeren yolları temizle
             return preg_replace('/^\.\.\//', '', $path);
         };
 
@@ -103,9 +98,8 @@ class PsikologCrawler {
         ];
     }
 
-    /**
-     * @param array|string|null $authorsText
-     * @return array
-     */
+    public function getEnglishTitle(SymfonyCrawler $row): ?string {
+        return null;
+    }
 
 }

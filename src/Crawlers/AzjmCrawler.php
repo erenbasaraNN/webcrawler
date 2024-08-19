@@ -3,7 +3,7 @@ namespace App\Crawlers;
 
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
-class AzjmCrawler
+class AzjmCrawler extends BaseCrawler
 {
     private SymfonyCrawler $crawler;
 
@@ -84,6 +84,9 @@ class AzjmCrawler
         $pages = explode('-', $pagesText);
 
         return isset($pages[1]) ? trim($pages[1]) : null;
+    }
+    public function getEnglishTitle(SymfonyCrawler $row): ?string {
+        return null;
     }
 
 }

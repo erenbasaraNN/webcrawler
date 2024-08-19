@@ -2,23 +2,29 @@
 namespace App\SiteHandlers;
 
 use App\Crawlers\AzjmCrawler;
+use App\Crawlers\Models\Article;
 use App\Http\Client;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
-use Exception;
 
-class AzjmHandler implements SiteHandlerInterface {
+class AzjmHandler implements SiteHandlerInterface
+{
     private Client $client;
+    private ArticleHandle $articleHandle;
 
-    public function __construct(Client $client) {
+    public function __construct(Client $client, ArticleHandle $articleHandle)
+    {
         $this->client = $client;
+        $this->articleHandle = $articleHandle;
     }
 
     /**
      * @throws GuzzleException
      * @throws Exception
      */
-    public function handle(string $url): array {
+    public function handle(string $url): array
+    {
         $html = $this->client->get($url);
         $domCrawler = new SymfonyCrawler($html);
 
@@ -37,11 +43,10 @@ class AzjmHandler implements SiteHandlerInterface {
     /**
      * Extract issue links from the main page
      */
-    private function getIssueLinks(SymfonyCrawler $crawler): array {
-        // Adjust XPath to select <a> tags inside <h4> tags within <div id="issue-3">
+    private function getIssueLinks(SymfonyCrawler $crawler): array
+    {
         return $crawler->filterXPath('//h4/a')->each(function ($node) {
             $link = $node->attr('href');
-            // Handle relative URLs
             return str_starts_with($link, 'http') ? $link : 'https://azjm.org/' . ltrim($link, '/');
         });
     }
@@ -51,15 +56,16 @@ class AzjmHandler implements SiteHandlerInterface {
      * @throws GuzzleException
      * @throws Exception
      */
-    private function processIssue(string $issueUrl): array {
+    private function processIssue(string $issueUrl): array
+    {
         $html = $this->client->get($issueUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new AzjmCrawler($domCrawler);
 
         // Extract volume, number, and year
+        $crawler = new AzjmCrawler($domCrawler);
         $issueInfo = $crawler->getVolumeNumberYear();
 
-        // Fetch articles within the issue (all <table class="tocArticle">)
+        // Fetch articles within the issue
         $articleRows = $domCrawler->filter('table.tocArticle');
         $articles = [];
         foreach ($articleRows as $row) {
@@ -76,25 +82,10 @@ class AzjmHandler implements SiteHandlerInterface {
     }
 
     /**
-     * Process a single article
      * @throws Exception
      */
-    private function processArticle(SymfonyCrawler $articleCrawler): array {
-        $crawler = new AzjmCrawler($articleCrawler);
-        try {
-            return [
-                'title' => $crawler->getTitle($articleCrawler),
-                'en_title' => null, // No English title available
-                'abstract' => null, // No abstract provided
-                'keywords' => null, // No keywords provided
-                'pdf_url' => $crawler->getPdfUrl($articleCrawler),
-                'firstPage' => $crawler->getFirstPage($articleCrawler),
-                'lastPage' => $crawler->getLastPage($articleCrawler),
-                'authors' => $crawler->getAuthors($articleCrawler),
-                'primary_language' => 'en', // Assuming English as primary language
-            ];
-        } catch (Exception $e) {
-            throw new Exception('Error processing article: ' . $e->getMessage());
-        }
+    private function processArticle(SymfonyCrawler $articleCrawler): Article
+    {
+        return $this->articleHandle->processArticle($articleCrawler, 'azjm.org');
     }
 }

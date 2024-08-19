@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\SiteHandlers\ArticleHandle;
 use App\SiteHandlers\AzjmHandler;
 use App\SiteHandlers\OsmanliMirasHandler;
 use App\SiteHandlers\PsikologHandler;
@@ -11,9 +12,11 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Scraper {
     private Client $client;
+    private ArticleHandle $articleHandle;
 
     public function __construct() {
         $this->client = new Client();
+        $this->articleHandle = new ArticleHandle();
     }
 
     /**
@@ -25,7 +28,6 @@ class Scraper {
         $handler = $this->getHandlerForDomain($domain);
 
         // Veriyi kontrol et
-
         return $handler->handle($url);
     }
 
@@ -35,10 +37,10 @@ class Scraper {
     private function getHandlerForDomain(string $domain): PsikologHandler|OsmanliMirasHandler|YeditepeHandler|AzjmHandler
     {
         return match ($domain) {
-            'psikolog.org.tr' => new PsikologHandler($this->client),
-            'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
-            'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
-            'azjm.org' => new AzjmHandler($this->client),
+            'psikolog.org.tr' => new PsikologHandler($this->client, $this->articleHandle),
+            'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client, $this->articleHandle),
+            'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client, $this->articleHandle),
+            'azjm.org' => new AzjmHandler($this->client, $this->articleHandle),
             default => throw new Exception("No handler found for domain: " . $domain),
         };
     }
@@ -54,6 +56,7 @@ class Scraper {
             default => 'output.xml',
         };
     }
+
     public function trimAuthorByComma(array|string|null $authorsText): array
     {
         return array_map('trim', explode(',', $authorsText));

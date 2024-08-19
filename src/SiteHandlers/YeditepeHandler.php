@@ -1,6 +1,7 @@
 <?php
 namespace App\SiteHandlers;
 
+use App\Crawlers\Models\Article;
 use App\Crawlers\YeditepeCrawler;
 use App\Http\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -88,23 +89,21 @@ class YeditepeHandler implements SiteHandlerInterface
         ];
     }
 
-    private function processArticle(SymfonyCrawler $articleCrawler): array
+    private function processArticle(SymfonyCrawler $articleCrawler): Article
     {
         $crawler = new YeditepeCrawler($articleCrawler);
-            return [
-                'title' => $crawler->getTitle($articleCrawler),
-                'abstract' => null,
-                'keywords' => $crawler->getKeywords($articleCrawler), // No keywords in the structure you provided
-                'pdf_url' => $crawler->getPdfUrl($articleCrawler),
-                'firstpage' => $crawler->getFirstPage($articleCrawler), // Not available directly in table format
-                'lastpage' => $crawler->getLastPage($articleCrawler),  // Not available directly in table format
-                'authors' => $crawler->getAuthors($articleCrawler),
-                'primary_language' => 'tr', // Assuming Turkish is the primary language
-                'en_title' => null,
-                'en_abstract' => null,
-                'en_keywords' => null
-            ];
+        $title = $crawler->getTitle($articleCrawler);
+        $en_title = null; // English title is not available
+        $abstract = null; // Abstract is not available
+        $keywords = $crawler->getKeywords($articleCrawler);
+        $pdfUrl = $crawler->getPdfUrl($articleCrawler);
+        $firstPage = $crawler->getFirstPage($articleCrawler); // Not available directly in table format
+        $lastPage = $crawler->getLastPage($articleCrawler);  // Not available directly in table format
+        $authors = $crawler->getAuthors($articleCrawler);
+        $primaryLanguage = 'tr'; // Assuming Turkish as the primary language
 
+        return new Article($title, $en_title, $abstract, $authors, $pdfUrl, $firstPage, $lastPage, $keywords, $primaryLanguage);
     }
+
 
 }

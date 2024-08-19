@@ -83,4 +83,7 @@ class YeditepeCrawler {
             $number[1] ?? null
         ];
     }
+    public function getEnglishTitle(): ?string {
+        return null;
+    }
 }

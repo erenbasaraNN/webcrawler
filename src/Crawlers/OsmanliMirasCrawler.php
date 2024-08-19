@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
 
-class OsmanliMirasCrawler {
+class OsmanliMirasCrawler extends BaseCrawler {
     private SymfonyCrawler $crawler;
 
     public function __construct(SymfonyCrawler $crawler) {
@@ -40,31 +40,31 @@ class OsmanliMirasCrawler {
         return $this->safeFilterTextXPath('//h1/b[contains(text(), "Sayı:")]/following-sibling::text()[1]');
     }
 
-    public function getTitle(): ?string {
+    public function getTitle(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_title"]', 'content');
     }
 
-    public function getAbstract(): ?string {
+    public function getAbstract(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_abstract"]', 'content');
     }
 
-    public function getKeywords(): ?string {
+    public function getKeywords(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_keywords"]', 'content');
     }
 
-    public function getPdfUrl(): ?string {
+    public function getPdfUrl(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_pdf_url"]', 'content');
     }
 
-    public function getFirstPage(): ?string {
+    public function getFirstPage(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_firstpage"]', 'content');
     }
 
-    public function getLastPage(): ?string {
+    public function getLastPage(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_lastpage"]', 'content');
     }
 
-    public function getAuthors(): array {
+    public function getAuthors(SymfonyCrawler $row): array {
         $authors = [];
         $this->crawler->filter('meta[name="citation_author"]')->each(function (SymfonyCrawler $node) use (&$authors) {
             // Citation author içeriklerini alıyoruz
@@ -89,20 +89,12 @@ class OsmanliMirasCrawler {
         return $authors;
     }
 
-    public function getLanguage(): ?string {
+    public function getLanguage(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_language"]', 'content');
     }
     
     // INGILIZCE KISIMLAR İÇİN EKLENDİ.
-    public function getEnglishTitle(): ?string {
-        return $this->safeFilterAttr('meta[name="DC.Title"]', 'content');
-    }
-
-    public function getEnglishAbstract(): ?string {
-        return $this->safeFilterTextXPath('/html/body/span/div[2]/div/main/div/div/div/div[1]/div/div/div[4]/div/p[1]/text()');
-    }
-
-    public function getEnglishKeywords(): ?string {
-        return $this->safeFilterTextXPath('/html/body/span/div[2]/div/main/div/div/div/div[1]/div/div/div[4]/div/p[2]/text()');
+    public function getEnglishTitle(SymfonyCrawler $row): ?string {
+        return $this->safeFilterAttr('meta[name="DC.Title"]', 'content') ?? null;
     }
 }

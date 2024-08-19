@@ -1,75 +1,76 @@
 <?php
+
 namespace App\Xml;
 
+use App\Crawlers\Models\Article;
 use SimpleXMLElement;
 
 class Generator {
-    public function generate(array $data): string {
+    public function generate(array $issues): string {
         $xml = new SimpleXMLElement('<issues/>');
-        $skippedIssues = []; // Array to store skipped issues
+        $skippedIssues = []; // Skipped issues list
 
-        // Loop through each issue to create an "issue" element
-        foreach ($data as $issueData) {
+        foreach ($issues as $issueData) {
             $skipIssue = false;
 
-            // Check if any article in the issue has a missing PDF URL
-            foreach ($issueData['articles'] as $articleData) {
-                if (empty($articleData['pdf_url'])) {
+            // Check if any article in the issue is missing a PDF URL
+            foreach ($issueData['articles'] as $articleHandle) {
+                if (empty($articleHandle->getPdfUrl())) {
                     $skipIssue = true;
-                    break; // Skip the entire issue if any article is missing a PDF URL
+                    break;
                 }
             }
 
-            // If any article is missing a PDF URL, skip the entire issue
+            // Skip the issue if any article is missing a PDF URL
             if ($skipIssue) {
                 $skippedIssues[] = [
                     'volume' => $issueData['volume'] ?? 'Unknown',
                     'year' => $issueData['year'] ?? 'Unknown',
                     'number' => $issueData['number'] ?? 'Özel Sayı'
                 ];
-                continue; // Skip the current issue
+                continue;
             }
 
-            // Add the issue to the XML if all articles have valid PDF URLs
+            // Add the issue to the XML
             $issue = $xml->addChild('issue');
-
-            // Volume, Year, Number
             $issue->addChild('volume', htmlspecialchars($issueData['volume'] ?? ''));
             $issue->addChild('year', htmlspecialchars($issueData['year'] ?? ''));
             $issue->addChild('number', htmlspecialchars($issueData['number'] ?? 'Özel Sayı'));
 
             // Articles
             $articlesElement = $issue->addChild('articles');
-            foreach ($issueData['articles'] as $articleData) {
+            foreach ($issueData['articles'] as $articleHandle) {
+                /** @var Article $articleHandle */
                 $articleElement = $articlesElement->addChild('article');
-                $articleElement->addChild('fulltext-file', htmlspecialchars($articleData['pdf_url'] ?? ''));
-                $articleElement->addChild('firstpage', htmlspecialchars($articleData['firstPage'] ?? ''));
-                $articleElement->addChild('lastpage', htmlspecialchars($articleData['lastPage'] ?? ''));
-                $articleElement->addChild('primary-language', htmlspecialchars($articleData['primary_language'] ?? ''));
+                $articleElement->addChild('fulltext-file', htmlspecialchars($articleHandle->getPdfUrl() ?? ''));
+                $articleElement->addChild('firstpage', htmlspecialchars($articleHandle->getFirstPage() ?? ''));
+                $articleElement->addChild('lastpage', htmlspecialchars($articleHandle->getLastPage() ?? ''));
+                $articleElement->addChild('primary-language', htmlspecialchars($articleHandle->getPrimaryLanguage() ?? ''));
 
                 // Translations
                 $translationsElement = $articleElement->addChild('translations');
 
                 // Turkish Translation
                 $translationElement = $translationsElement->addChild('translation');
-                $translationElement->addChild('locale', 'tr'); // Assuming 'tr' as locale
-                $translationElement->addChild('title', htmlspecialchars($articleData['title'] ?? ''));
-                $translationElement->addChild('abstract', htmlspecialchars($articleData['abstract'] ?? ''));
-                $translationElement->addChild('keywords', htmlspecialchars($articleData['keywords'] ?? ''));
+                $translationElement->addChild('locale', 'tr');
+                $translationElement->addChild('title', htmlspecialchars($articleHandle->getTitle() ?? ''));
+                $translationElement->addChild('abstract', htmlspecialchars($articleHandle->getAbstract() ?? ''));
+                $translationElement->addChild('keywords', htmlspecialchars($articleHandle->getKeywords() ?? ''));
 
-                // English Translation (only if en_title is not empty)
-                if (!empty($articleData['en_title'])) {
+                // English Translation (if available)
+                if (!empty($articleHandle->getEnTitle())) {
                     $translationElement = $translationsElement->addChild('translation');
-                    $translationElement->addChild('locale', 'en'); // Assuming 'en' as locale
-                    $translationElement->addChild('title', htmlspecialchars($articleData['en_title']));
-                    $translationElement->addChild('abstract', htmlspecialchars($articleData['en_abstract'] ?? ''));
-                    $translationElement->addChild('keywords', htmlspecialchars($articleData['en_keywords'] ?? ''));
+                    $translationElement->addChild('locale', 'en');
+                    $translationElement->addChild('title', htmlspecialchars($articleHandle->getEnTitle() ?? ''));
+                    $translationElement->addChild('abstract', htmlspecialchars($articleHandle->getAbstract() ?? ''));
+                    $translationElement->addChild('keywords', htmlspecialchars($articleHandle->getKeywords() ?? ''));
                 }
 
                 // Authors
                 $authorsElement = $articleElement->addChild('authors');
-                if (!empty($articleData['authors'])) {
-                    foreach ($articleData['authors'] as $author) {
+                $authors = $articleHandle->getAuthors();
+                if (!empty($authors)) {
+                    foreach ($authors as $author) {
                         $authorElement = $authorsElement->addChild('author');
                         $authorElement->addChild('firstname', htmlspecialchars($author['firstName'] ?? ''));
                         $authorElement->addChild('lastname', htmlspecialchars($author['lastName'] ?? ''));
@@ -77,20 +78,10 @@ class Generator {
                 } else {
                     $authorsElement->addChild('author', 'BURAYI DOLDUR');
                 }
-
-                // Citations
-                $citationsElement = $articleElement->addChild('citations');
-                if (!empty($articleData['citations'])) {
-                    foreach ($articleData['citations'] as $index => $citation) {
-                        $citationElement = $citationsElement->addChild('citation');
-                        $citationElement->addChild('row', $index + 1);
-                        $citationElement->addChild('value', htmlspecialchars($citation ?? ''));
-                    }
-                }
             }
         }
 
-        // Add a section for skipped issues at the end of the XML
+        // Add skipped issues at the end of the XML
         if (!empty($skippedIssues)) {
             $skippedElement = $xml->addChild('skipped_issues');
             foreach ($skippedIssues as $skippedIssue) {
@@ -101,7 +92,7 @@ class Generator {
             }
         }
 
-        // Format XML output
+        // Format the XML output
         $dom = dom_import_simplexml($xml)->ownerDocument;
         $dom->encoding = 'UTF-8';
         $dom->formatOutput = true;
