@@ -34,28 +34,30 @@ class OsmanliMirasHandler implements SiteHandlerInterface
     }
 
 
+    /**
+     * @throws GuzzleException
+     */
     private function getIssueLinks(string $url): array
     {
         $html = $this->client->get($url);
         $crawler = new SymfonyCrawler($html);
 
         // XPath ile tüm issue linklerini toplar
-        $issueLinks = $crawler->filterXPath('//a[contains(@class, "sj-btnrecord")]')->each(function ($node) {
+        return $crawler->filterXPath('//a[contains(@class, "sj-btnrecord")]')->each(function ($node) {
             return $node->attr('href');
         });
-
-        return $issueLinks;
     }
 
     /**
      * @throws GuzzleException
+     * @throws Exception
      */
     private function handleIssue(string $issueUrl): array
     {
         // Issue sayfasını yükle
         $html = $this->client->get($issueUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new OsmanliMirasCrawler($domCrawler, $this->client);
+        $crawler = new OsmanliMirasCrawler($domCrawler);
 
         // Makale linklerini bulur
         $articleLinks = $domCrawler->filterXPath('//div[contains(@class, "sj-content")]//article//h3/a')->each(function ($node) {
@@ -90,12 +92,15 @@ class OsmanliMirasHandler implements SiteHandlerInterface
         ];
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function processArticle(string $articleUrl): array
     {
         // Makale sayfasını yükle
         $html = $this->client->get($articleUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new OsmanliMirasCrawler($domCrawler, $this->client);
+        $crawler = new OsmanliMirasCrawler($domCrawler);
 
         // Verileri işle ve hataları yakala
         return [

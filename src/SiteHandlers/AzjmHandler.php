@@ -93,8 +93,8 @@ class AzjmHandler implements SiteHandlerInterface {
                 'authors' => $crawler->getAuthors($articleCrawler),
                 'primary_language' => 'en', // Assuming English as primary language
             ];
-        } catch (\Exception $e) {
-            throw new \Exception('Error processing article: ' . $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception('Error processing article: ' . $e->getMessage());
         }
     }
 }

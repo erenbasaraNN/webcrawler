@@ -49,7 +49,7 @@ class PsikologHandler implements SiteHandlerInterface {
      * @throws Exception
      */
     private function processIssue(SymfonyCrawler $issueCrawler): array {
-        $crawler = new PsikologCrawler($issueCrawler, $this->client);
+        $crawler = new PsikologCrawler($issueCrawler);
 
         // Fetch articles within the issue
         $articleRows = $issueCrawler->filterXPath('//div[@class="yayinDiv"]');
@@ -72,7 +72,7 @@ class PsikologHandler implements SiteHandlerInterface {
      * @throws Exception
      */
     private function processArticle(SymfonyCrawler $articleCrawler): array {
-        $crawler = new PsikologCrawler($articleCrawler, $this->client);
+        $crawler = new PsikologCrawler($articleCrawler);
         try {
             return [
                 'title' => $crawler->getTitle($articleCrawler),
@@ -85,8 +85,8 @@ class PsikologHandler implements SiteHandlerInterface {
                 'authors' => $crawler->getAuthors($articleCrawler),
                 'primary_language' => 'tr',
             ];
-        } catch (\Exception $e) {
-            throw new \Exception('Error processing article: ' . $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception('Error processing article: ' . $e->getMessage());
         }
     }
 }

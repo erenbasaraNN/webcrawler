@@ -24,11 +24,9 @@ class Scraper {
         $domain = parse_url($url, PHP_URL_HOST);
         $handler = $this->getHandlerForDomain($domain);
 
-        $data = $handler->handle($url);
-
         // Veriyi kontrol et
 
-        return $data;
+        return $handler->handle($url);
     }
 
     /**
@@ -41,7 +39,7 @@ class Scraper {
             'www.osmanlimirasi.net' => new OsmanliMirasHandler($this->client),
             'globalmediajournaltr.yeditepe.edu.tr' => new YeditepeHandler($this->client),
             'azjm.org' => new AzjmHandler($this->client),
-            default => throw new \Exception("No handler found for domain: " . $domain),
+            default => throw new Exception("No handler found for domain: " . $domain),
         };
     }
 
@@ -55,5 +53,9 @@ class Scraper {
             'azjm.org' => 'azjm.xml',
             default => 'output.xml',
         };
+    }
+    public function trimAuthorByComma(array|string|null $authorsText): array
+    {
+        return array_map('trim', explode(',', $authorsText));
     }
 }

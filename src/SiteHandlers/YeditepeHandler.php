@@ -33,6 +33,9 @@ class YeditepeHandler implements SiteHandlerInterface
         return $allIssues;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function getIssueLinksFromMultiplePages(string $url): array
     {
         $issueLinks = [];
@@ -63,7 +66,7 @@ class YeditepeHandler implements SiteHandlerInterface
 
         $html = $this->client->get($fullIssueUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new YeditepeCrawler($domCrawler, $this->client);
+        $crawler = new YeditepeCrawler($domCrawler);
 
         $articleRows = $domCrawler->filterXPath('//table/tbody/tr');
         if ($articleRows->count() === 0) {
@@ -87,24 +90,21 @@ class YeditepeHandler implements SiteHandlerInterface
 
     private function processArticle(SymfonyCrawler $articleCrawler): array
     {
-        $crawler = new YeditepeCrawler($articleCrawler, $this->client);
-        try {
+        $crawler = new YeditepeCrawler($articleCrawler);
             return [
                 'title' => $crawler->getTitle($articleCrawler),
-                'abstract' => $crawler->getAbstract($articleCrawler),
+                'abstract' => null,
                 'keywords' => $crawler->getKeywords($articleCrawler), // No keywords in the structure you provided
                 'pdf_url' => $crawler->getPdfUrl($articleCrawler),
                 'firstpage' => $crawler->getFirstPage($articleCrawler), // Not available directly in table format
                 'lastpage' => $crawler->getLastPage($articleCrawler),  // Not available directly in table format
                 'authors' => $crawler->getAuthors($articleCrawler),
                 'primary_language' => 'tr', // Assuming Turkish is the primary language
-                'en_title' => $crawler->getEnglishTitle($articleCrawler),
-                'en_abstract' => $crawler->getEnglishAbstract($articleCrawler),
-                'en_keywords' => $crawler->getEnglishKeywords($articleCrawler),
+                'en_title' => null,
+                'en_abstract' => null,
+                'en_keywords' => null
             ];
-        }catch (\Exception $e) {
-            // Handle any parsing errors here
-            throw new \Exception('Error processing article: ' . $e->getMessage());
+
     }
-    }
+
 }

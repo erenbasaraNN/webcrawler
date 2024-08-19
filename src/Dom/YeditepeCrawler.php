@@ -2,7 +2,6 @@
 namespace App\Dom;
 
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
-use App\Http\Client;
 
 class YeditepeCrawler {
     private SymfonyCrawler $crawler;
@@ -15,9 +14,7 @@ class YeditepeCrawler {
         return $row->filterXPath('//td[1]//em/strong')->count() ? $row->filterXPath('//td[1]//em/strong')->text() : 'Editörlerimizden';
     }
 
-    public function getAbstract(SymfonyCrawler $row): ?string {
-        return null;
-    }
+
     public function getKeywords(SymfonyCrawler $row): ?string {
         return $row->filterXPath('')->count() ? $row->filterXPath('')->text() : null;
     }
@@ -53,8 +50,8 @@ class YeditepeCrawler {
             $firstName = implode(' ', $nameParts) ?? null; // Adı
 
             $authorsArray[] = [
-                'firstname' => $firstName,
-                'lastname' => $lastName,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
             ];
         }
 
@@ -85,18 +82,5 @@ class YeditepeCrawler {
             $volume[1] ?? null,
             $number[1] ?? null
         ];
-    }
-
-    // English versions
-    public function getEnglishTitle(SymfonyCrawler $row): ?string {
-        return null; // Add logic if available
-    }
-
-    public function getEnglishAbstract(SymfonyCrawler $row): ?string {
-        return null; // Add logic if available
-    }
-
-    public function getEnglishKeywords(SymfonyCrawler $row): ?string {
-        return null; // Add logic if available
     }
 }

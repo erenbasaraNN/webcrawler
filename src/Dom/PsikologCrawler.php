@@ -2,12 +2,14 @@
 namespace App\Dom;
 
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use App\Scraper;
 
 class PsikologCrawler {
     private SymfonyCrawler $crawler;
-
+    private Scraper $scraper;
     public function __construct(SymfonyCrawler $crawler) {
         $this->crawler = $crawler;
+        $this->scraper = new Scraper();
     }
 
     public function getTitle(SymfonyCrawler $row): ?string {
@@ -19,7 +21,7 @@ class PsikologCrawler {
         $authorsText = $row->filter('div.yayinDiv > div.yayinsutun > i')->text();
         $authorsText = preg_replace('/^Yazar\s*:\s*/', '', $authorsText); // Remove "Yazar : " at the start of the string
 
-        $authors = array_map('trim', explode(',', $authorsText));
+        $authors = $this->scraper->trimAuthorByComma($authorsText);
 
         $authorsArray = [];
         foreach ($authors as $author) {
@@ -101,20 +103,9 @@ class PsikologCrawler {
         ];
     }
 
+    /**
+     * @param array|string|null $authorsText
+     * @return array
+     */
 
-    // English versions
-    public function getEnglishAbstract(SymfonyCrawler $row): ?string {
-        return null; // No abstract available
-    }
-
-    public function getEnglishKeywords(SymfonyCrawler $row): ?string {
-        return null; // No keywords available
-    }
-    public function getEnglishTitle(SymfonyCrawler $row): ?string {
-        return null; // No English title available
-
-    {
-
-    }
-}
 }

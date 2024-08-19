@@ -1,6 +1,7 @@
 <?php
 namespace App\Dom;
 
+use InvalidArgumentException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
 
@@ -11,18 +12,10 @@ class OsmanliMirasCrawler {
         $this->crawler = $crawler;
     }
 
-    private function safeFilterText(string $selector): ?string {
-        try {
-            return $this->crawler->filter($selector)->text();
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
-    }
-
     public function safeFilterAttr(string $selector, string $attribute): ?string {
         try {
             return $this->crawler->filter($selector)->attr($attribute);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }
@@ -30,7 +23,7 @@ class OsmanliMirasCrawler {
     private function safeFilterTextXPath(string $xpath): ?string {
         try {
             return trim($this->crawler->filterXPath($xpath)->text());
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }

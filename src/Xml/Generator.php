@@ -1,11 +1,11 @@
 <?php
 namespace App\Xml;
 
-use Exception;
+use SimpleXMLElement;
 
 class Generator {
     public function generate(array $data): string {
-        $xml = new \SimpleXMLElement('<issues/>');
+        $xml = new SimpleXMLElement('<issues/>');
         $skippedIssues = []; // Array to store skipped issues
 
         // Loop through each issue to create an "issue" element
@@ -61,7 +61,7 @@ class Generator {
                 if (!empty($articleData['en_title'])) {
                     $translationElement = $translationsElement->addChild('translation');
                     $translationElement->addChild('locale', 'en'); // Assuming 'en' as locale
-                    $translationElement->addChild('title', htmlspecialchars($articleData['en_title'] ?? ''));
+                    $translationElement->addChild('title', htmlspecialchars($articleData['en_title']));
                     $translationElement->addChild('abstract', htmlspecialchars($articleData['en_abstract'] ?? ''));
                     $translationElement->addChild('keywords', htmlspecialchars($articleData['en_keywords'] ?? ''));
                 }
