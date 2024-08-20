@@ -1,78 +1,76 @@
 <?php
+
 namespace App\SiteHandlers;
 
-use App\Crawlers\Models\Article;
-use App\Crawlers\PsikologCrawler;
+use App\Crawlers\Models\Issue;
 use App\Http\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use GuzzleHttp\Exception\GuzzleException;
 use Exception;
 
-class PsikologHandler implements SiteHandlerInterface {
+class PsikologHandler implements SiteHandlerInterface
+{
+    const DOMAINPSIKOLOG = 'psikolog.org.tr';
     private Client $client;
     private ArticleHandle $articleHandle;
+    private IssueHandle $issueHandle;
 
-    public function __construct(Client $client, ArticleHandle $articleHandle) {
+    public function __construct(Client $client, ArticleHandle $articleHandle, IssueHandle $issueHandle)
+    {
         $this->client = $client;
         $this->articleHandle = $articleHandle;
+        $this->issueHandle = $issueHandle;
     }
 
     /**
      * @throws GuzzleException
      * @throws Exception
      */
-    public function handle(string $url): array {
+    public function handle(string $url): array
+    {
         $html = $this->client->get($url);
         $domCrawler = new SymfonyCrawler($html);
 
-        $issueDivs = $domCrawler->filter('div.accordic');
+        $selector = 'div.accordic';
+        $issueDivs = $domCrawler->filter($selector);
 
         if ($issueDivs->count() > 1) {
             $issueDivs = $issueDivs->slice(1);
-        } else {
-            throw new Exception('No issue divs found after skipping the first.');
         }
 
         $allIssues = [];
         foreach ($issueDivs as $div) {
             $issueCrawler = new SymfonyCrawler($div);
-            $issueData = $this->processIssue($issueCrawler);
-
-            $allIssues[] = $issueData;
+            $allIssues[] = $this->processIssue($issueCrawler);
         }
 
         return $allIssues;
     }
 
     /**
-     * Process a single issue
      * @throws Exception
      */
-    private function processIssue(SymfonyCrawler $issueCrawler): array {
-        $crawler = new PsikologCrawler($issueCrawler);
+    private function processIssue(SymfonyCrawler $issueCrawler): Issue
+    {
+        $articles = $this->processArticles($issueCrawler);
 
-        $articleRows = $issueCrawler->filterXPath('//div[@class="yayinDiv"]');
-        $articles = [];
-        foreach ($articleRows as $row) {
-            $articleCrawler = new SymfonyCrawler($row);
-            $articles[] = $this->processArticle($articleCrawler);
-        }
-
-        return [
-            'volume' => $crawler->getVolume(),
-            'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber(),
-            'articles' => $articles,
-        ];
+        return $this->issueHandle->generateIssue($issueCrawler, self::DOMAINPSIKOLOG, $articles);
     }
 
     /**
-     * Process a single article
      * @throws Exception
      */
-    private function processArticle(SymfonyCrawler $articleCrawler): Article
+    private function processArticles(SymfonyCrawler $issueCrawler): array
     {
-        return $this->articleHandle->processArticle($articleCrawler, 'psikolog.org.tr');
-    }
+        $xpath = '//div[@class="yayinDiv"]';
+        $articleRows = $issueCrawler->filterXPath($xpath);
+        $articles = [];
 
+        foreach ($articleRows as $row) {
+            $articleCrawler = new SymfonyCrawler($row);
+            $articles[] = $this->articleHandle->processArticle($articleCrawler, self::DOMAINPSIKOLOG);
+        }
+
+        return $articles;
+    }
 }

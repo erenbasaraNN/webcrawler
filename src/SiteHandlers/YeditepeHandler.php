@@ -1,34 +1,37 @@
 <?php
+
 namespace App\SiteHandlers;
 
-use App\Crawlers\Models\Article;
-use App\Crawlers\YeditepeCrawler;
+use App\Crawlers\Models\Issue;
 use App\Http\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use GuzzleHttp\Exception\GuzzleException;
 use Exception;
 
 class YeditepeHandler implements SiteHandlerInterface
 {
+    const DOMAINYEDITEPE = 'globalmediajournaltr.yeditepe.edu.tr';
     private Client $client;
+    private ArticleHandle $articleHandle;
+    private IssueHandle $issueHandle;
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, ArticleHandle $articleHandle, IssueHandle $issueHandle)
     {
         $this->client = $client;
+        $this->articleHandle = $articleHandle;
+        $this->issueHandle = $issueHandle;
     }
 
     /**
      * @throws GuzzleException
-     * @throws Exception
      */
     public function handle(string $url): array
     {
         $issueLinks = $this->getIssueLinksFromMultiplePages($url);
-
         $allIssues = [];
+
         foreach ($issueLinks as $issueLink) {
-            $issueData = $this->handleIssue($issueLink);
-            $allIssues[] = $issueData;
+            $allIssues[] = $this->processIssue($issueLink);
         }
 
         return $allIssues;
@@ -40,14 +43,15 @@ class YeditepeHandler implements SiteHandlerInterface
     private function getIssueLinksFromMultiplePages(string $url): array
     {
         $issueLinks = [];
-        $pages = [0, 1, 2]; // The pages you mentioned
+        $pages = [0, 1, 2];
 
         foreach ($pages as $page) {
             $pageUrl = $url . '?page=' . $page;
             $html = $this->client->get($pageUrl);
             $crawler = new SymfonyCrawler($html);
 
-            $links = $crawler->filterXPath('//span[@class="gbaslik"]/a')->each(function ($node) {
+            $xpath = '//span[@class="gbaslik"]/a';
+            $links = $crawler->filterXPath($xpath)->each(function ($node) {
                 return $node->attr('href');
             });
 
@@ -61,15 +65,25 @@ class YeditepeHandler implements SiteHandlerInterface
      * @throws GuzzleException
      * @throws Exception
      */
-    private function handleIssue(string $issueUrl): array
+    private function processIssue(string $issueUrl): Issue
     {
         $fullIssueUrl = 'https://globalmediajournaltr.yeditepe.edu.tr' . $issueUrl;
-
         $html = $this->client->get($fullIssueUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new YeditepeCrawler($domCrawler);
 
-        $articleRows = $domCrawler->filterXPath('//table/tbody/tr');
+        $articles = $this->processArticles($domCrawler);
+
+        return $this->issueHandle->generateIssue($domCrawler, self::DOMAINYEDITEPE, $articles);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function processArticles(SymfonyCrawler $domCrawler): array
+    {
+        $xpath = '//table/tbody/tr';
+        $articleRows = $domCrawler->filterXPath($xpath);
+
         if ($articleRows->count() === 0) {
             throw new Exception('No article rows found on the page.');
         }
@@ -77,33 +91,9 @@ class YeditepeHandler implements SiteHandlerInterface
         $articles = [];
         foreach ($articleRows as $row) {
             $articleCrawler = new SymfonyCrawler($row);
-            $articles[] = $this->processArticle($articleCrawler);
+            $articles[] = $this->articleHandle->processArticle($articleCrawler, self::DOMAINYEDITEPE);
         }
 
-
-        return [
-            'articles' => $articles,
-            'volume' => $crawler->getVolume(),
-            'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber()
-        ];
+        return $articles;
     }
-
-    private function processArticle(SymfonyCrawler $articleCrawler): Article
-    {
-        $crawler = new YeditepeCrawler($articleCrawler);
-        $title = $crawler->getTitle($articleCrawler);
-        $en_title = null; // English title is not available
-        $abstract = null; // Abstract is not available
-        $keywords = $crawler->getKeywords($articleCrawler);
-        $pdfUrl = $crawler->getPdfUrl($articleCrawler);
-        $firstPage = $crawler->getFirstPage($articleCrawler); // Not available directly in table format
-        $lastPage = $crawler->getLastPage($articleCrawler);  // Not available directly in table format
-        $authors = $crawler->getAuthors($articleCrawler);
-        $primaryLanguage = 'tr'; // Assuming Turkish as the primary language
-
-        return new Article($title, $en_title, $abstract, $authors, $pdfUrl, $firstPage, $lastPage, $keywords, $primaryLanguage);
-    }
-
-
 }

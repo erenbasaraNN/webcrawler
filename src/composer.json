@@ -3,7 +3,7 @@
   "description": "A web scraping project using PHP and Symfony components",
   "type": "project",
   "require": {
-    "php": "^8.0",
+    "php": "^8.2",
     "guzzlehttp/guzzle": "^7.4",
     "symfony/dom-crawler": "^5.3",
     "symfony/css-selector": "^5.3",

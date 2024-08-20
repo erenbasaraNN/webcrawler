@@ -67,19 +67,16 @@ class OsmanliMirasCrawler extends BaseCrawler {
     public function getAuthors(SymfonyCrawler $row): array {
         $authors = [];
         $this->crawler->filter('meta[name="citation_author"]')->each(function (SymfonyCrawler $node) use (&$authors) {
-            // Citation author içeriklerini alıyoruz
             $authorText = $node->attr('content');
 
-            // Eğer yazarlar virgülle ayrılmışsa, onları bölüyoruz
             $individualAuthors = explode(',', $authorText);
 
             foreach ($individualAuthors as $author) {
                 $author = trim($author);
                 $nameParts = explode(' ', $author);
-                $lastName = array_pop($nameParts); // Son kısmı soyadı olarak alıyoruz
-                $firstName = implode(' ', $nameParts); // Geri kalanı adı oluşturuyor
+                $lastName = array_pop($nameParts);
+                $firstName = implode(' ', $nameParts);
 
-                // İsim ve soyisimleri yazarlar listesine ekliyoruz
                 $authors[] = [
                     'firstname' => $firstName,
                     'lastname' => $lastName,
@@ -92,9 +89,33 @@ class OsmanliMirasCrawler extends BaseCrawler {
     public function getLanguage(SymfonyCrawler $row): ?string {
         return $this->safeFilterAttr('meta[name="citation_language"]', 'content');
     }
-    
-    // INGILIZCE KISIMLAR İÇİN EKLENDİ.
-    public function getEnglishTitle(SymfonyCrawler $row): ?string {
-        return $this->safeFilterAttr('meta[name="DC.Title"]', 'content') ?? null;
+
+    public function getEnglishTitle(SymfonyCrawler $row): ?string
+    {
+        $titleNode = $row->filter('h4');
+        if ($titleNode->count() > 0) {
+            return $titleNode->text(null, false);
+        }
+        return null;
+    }
+
+    public function getEnglishKeywords(SymfonyCrawler $row): ?string
+    {
+        $keywordsNode = $row->filterXPath('(//div/p[2])[2]');
+        if ($keywordsNode->count() > 0) {
+            $strongNode = $keywordsNode->filter('strong');
+            $keywordsText = $strongNode->count() > 0 ? str_replace($strongNode->text(), '', $keywordsNode->text()) : $keywordsNode->text();
+            return trim($keywordsText);
+        }
+        return null;
+    }
+
+    public function getEnglishAbstract(SymfonyCrawler $row): ?string
+    {
+        $abstractNode = $row->filterXPath('(//div/p[1])[2]');
+        if ($abstractNode->count() > 0) {
+            return $abstractNode->text(null, false);
+        }
+        return null;
     }
 }

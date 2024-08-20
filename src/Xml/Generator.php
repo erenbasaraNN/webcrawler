@@ -3,6 +3,7 @@
 namespace App\Xml;
 
 use App\Crawlers\Models\Article;
+use App\Crawlers\Models\Issue;
 use SimpleXMLElement;
 
 class Generator {
@@ -10,11 +11,12 @@ class Generator {
         $xml = new SimpleXMLElement('<issues/>');
         $skippedIssues = []; // Skipped issues list
 
+        /** @var Issue $issueData */
         foreach ($issues as $issueData) {
             $skipIssue = false;
 
             // Check if any article in the issue is missing a PDF URL
-            foreach ($issueData['articles'] as $articleHandle) {
+            foreach ($issueData->getArticles() as $articleHandle) {  // Use getArticles() method to get articles
                 if (empty($articleHandle->getPdfUrl())) {
                     $skipIssue = true;
                     break;
@@ -24,22 +26,22 @@ class Generator {
             // Skip the issue if any article is missing a PDF URL
             if ($skipIssue) {
                 $skippedIssues[] = [
-                    'volume' => $issueData['volume'] ?? 'Unknown',
-                    'year' => $issueData['year'] ?? 'Unknown',
-                    'number' => $issueData['number'] ?? 'Özel Sayı'
+                    'volume' => $issueData->getVolume() ?? 'Unknown',
+                    'year' => $issueData->getYear() ?? 'Unknown',
+                    'number' => $issueData->getNumber() ?? 'Özel Sayı'
                 ];
                 continue;
             }
 
             // Add the issue to the XML
             $issue = $xml->addChild('issue');
-            $issue->addChild('volume', htmlspecialchars($issueData['volume'] ?? ''));
-            $issue->addChild('year', htmlspecialchars($issueData['year'] ?? ''));
-            $issue->addChild('number', htmlspecialchars($issueData['number'] ?? 'Özel Sayı'));
+            $issue->addChild('volume', htmlspecialchars($issueData->getVolume() ?? ''));
+            $issue->addChild('year', htmlspecialchars($issueData->getYear() ?? ''));
+            $issue->addChild('number', htmlspecialchars($issueData->getNumber() ?? 'Özel Sayı'));
 
             // Articles
             $articlesElement = $issue->addChild('articles');
-            foreach ($issueData['articles'] as $articleHandle) {
+            foreach ($issueData->getArticles() as $articleHandle) {  // Use getArticles() method to get articles
                 /** @var Article $articleHandle */
                 $articleElement = $articlesElement->addChild('article');
                 $articleElement->addChild('fulltext-file', htmlspecialchars($articleHandle->getPdfUrl() ?? ''));
@@ -58,12 +60,12 @@ class Generator {
                 $translationElement->addChild('keywords', htmlspecialchars($articleHandle->getKeywords() ?? ''));
 
                 // English Translation (if available)
-                if (!empty($articleHandle->getEnTitle())) {
+                if (!empty($articleHandle->getEnglishTitle())) {
                     $translationElement = $translationsElement->addChild('translation');
                     $translationElement->addChild('locale', 'en');
-                    $translationElement->addChild('title', htmlspecialchars($articleHandle->getEnTitle() ?? ''));
-                    $translationElement->addChild('abstract', htmlspecialchars($articleHandle->getAbstract() ?? ''));
-                    $translationElement->addChild('keywords', htmlspecialchars($articleHandle->getKeywords() ?? ''));
+                    $translationElement->addChild('title', htmlspecialchars($articleHandle->getEnglishTitle()));
+                    $translationElement->addChild('abstract', htmlspecialchars($articleHandle->getEnglishAbstract() ?? ''));
+                    $translationElement->addChild('keywords', htmlspecialchars($articleHandle->getEnglishKeywords() ?? ''));
                 }
 
                 // Authors

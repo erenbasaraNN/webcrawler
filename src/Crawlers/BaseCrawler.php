@@ -33,5 +33,11 @@ class BaseCrawler
     public function getLanguage(SymfonyCrawler $row): ?string {
         return null;
     }
+    public function getEnglishAbstract(SymfonyCrawler $row): ?string {
+        return null;
+    }
+    public function getEnglishKeywords(SymfonyCrawler $row): ?string {
+        return null;
+    }
 
 }

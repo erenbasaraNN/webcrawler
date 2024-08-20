@@ -2,36 +2,37 @@
 
 namespace App\SiteHandlers;
 
-use App\Crawlers\Models\Article;
-use App\Crawlers\OsmanliMirasCrawler;
+use App\Crawlers\Models\Issue;
 use App\Http\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use GuzzleHttp\Exception\GuzzleException;
 use Exception;
-
 
 class OsmanliMirasHandler implements SiteHandlerInterface
 {
+    const DOMAIN = 'www.osmanlimirasi.net';
+    const OSMANLIURL = 'https://www.osmanlimirasi.net';
     private Client $client;
     private ArticleHandle $articleHandle;
+    private IssueHandle $issueHandle;
 
-    public function __construct(Client $client, ArticleHandle $articleHandle)
+    public function __construct(Client $client, ArticleHandle $articleHandle, IssueHandle $issueHandle)
     {
         $this->client = $client;
         $this->articleHandle = $articleHandle;
+        $this->issueHandle = $issueHandle;
     }
 
     /**
      * @throws GuzzleException
-     * @throws Exception
      */
-    public function handle(string $url): array {
+    public function handle(string $url): array
+    {
         $issueLinks = $this->getIssueLinks($url);
-
         $allIssues = [];
+
         foreach ($issueLinks as $issueLink) {
-            $issueData = $this->handleIssue($issueLink);
-            $allIssues[] = $issueData;
+            $allIssues[] = $this->processIssue($issueLink);
         }
 
         return $allIssues;
@@ -45,7 +46,8 @@ class OsmanliMirasHandler implements SiteHandlerInterface
         $html = $this->client->get($url);
         $crawler = new SymfonyCrawler($html);
 
-        return $crawler->filterXPath('//a[contains(@class, "sj-btnrecord")]')->each(function ($node) {
+        $xpath = '//a[contains(@class, "sj-btnrecord")]';
+        return $crawler->filterXPath($xpath)->each(function ($node) {
             return $node->attr('href');
         });
     }
@@ -54,46 +56,35 @@ class OsmanliMirasHandler implements SiteHandlerInterface
      * @throws GuzzleException
      * @throws Exception
      */
-    private function handleIssue(string $issueUrl): array
+    private function processIssue(string $issueUrl): Issue
     {
         $html = $this->client->get($issueUrl);
         $domCrawler = new SymfonyCrawler($html);
-        $crawler = new OsmanliMirasCrawler($domCrawler);
 
-        $articleLinks = $domCrawler->filterXPath('//div[contains(@class, "sj-content")]//article//h3/a')->each(function ($node) {
-            return $node->attr('href');
-        });
+        $articles = $this->processArticles($domCrawler);
 
-        if (empty($articleLinks)) {
-            throw new Exception('No article links found on the page.');
-        }
-
-        $articles = [];
-        foreach ($articleLinks as $link) {
-            $fullUrl = str_starts_with($link, 'http') ? $link : 'https://www.osmanlimirasi.net' . $link;
-            try {
-                $articleHtml = $this->client->get($fullUrl);
-                $articleCrawler = new SymfonyCrawler($articleHtml);
-                $articles[] = $this->processArticle($articleCrawler);
-            } catch (Exception $e) {
-                echo 'Error processing article: ' . $e->getMessage();
-            }
-        }
-
-        return [
-            'articles' => $articles,
-            'volume' => $crawler->getVolume(),
-            'year' => $crawler->getYear(),
-            'number' => $crawler->getNumber()
-        ];
+        return $this->issueHandle->generateIssue($domCrawler, self::DOMAIN, $articles);
     }
 
     /**
-     * Process a single article
+     * @throws GuzzleException
      * @throws Exception
      */
-    private function processArticle(SymfonyCrawler $articleCrawler): Article
+    private function processArticles(SymfonyCrawler $issueCrawler): array
     {
-        return $this->articleHandle->processArticle($articleCrawler, 'www.osmanlimirasi.net');
+        $xpath = '//div[contains(@class, "sj-content")]//article//h3/a';
+        $articleLinks = $issueCrawler->filterXPath($xpath)->each(function ($node) {
+            return $node->attr('href');
+        });
+
+        $articles = [];
+        foreach ($articleLinks as $link) {
+            $fullUrl = str_starts_with($link, 'http') ? $link : self::OSMANLIURL . $link;
+            $articleHtml = $this->client->get($fullUrl);
+            $articleCrawler = new SymfonyCrawler($articleHtml);
+            $articles[] = $this->articleHandle->processArticle($articleCrawler, self::DOMAIN);
+        }
+
+        return $articles;
     }
 }

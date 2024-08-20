@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scraper Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            background-color: #333333;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
         }
         .container {
             background-color: #ffffff;
@@ -23,9 +26,9 @@
             width: 100%;
         }
         h1 {
-            text-align: center;
+            font-weight: bolder;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 35px;
         }
         label {
             display: block;
@@ -33,7 +36,7 @@
             font-size: 16px;
             color: #333;
         }
-        input[type="text"] {
+        select {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -42,6 +45,7 @@
             font-size: 16px;
         }
         button {
+            font-weight: bold;
             width: 100%;
             padding: 12px;
             background-color: #4CAF50;
@@ -50,15 +54,17 @@
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-content: center;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #333333;
+            color: #4CAF50;
         }
         .response-message {
             margin-top: 20px;
             font-size: 16px;
             color: #333;
-            text-align: center;
         }
         a {
             color: #4CAF50;
@@ -67,15 +73,25 @@
         a:hover {
             text-decoration: underline;
         }
+        option {
+            font-size: 16px;
+            font-weight: normal;
+            align-content: center;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="scraperForm">
     <h1>Web Scraper</h1>
-    <form method="post" action="">
-        <label for="url">Please enter a URL:</label>
-        <input type="text" id="url" name="url" placeholder="https://example.com" required>
+    <form method="post" action="loading.php">
+        <label for="domain">Please select a site.</label>
+        <select id="domain" name="domain" required>
+            <option value="https://azjm.org/volumes.html">Azerbaijan</option>
+            <option value="https://psikolog.org.tr/yayinlar/turk-psikoloji-dergisi">Psikolog.org</option>
+            <option value="https://www.osmanlimirasi.net/arsiv.html">Osmanlı Mirasi</option>
+            <option value="https://globalmediajournaltr.yeditepe.edu.tr/tr/tum-sayilar">Yeditepe EDU</option>
+        </select>
         <button type="submit">Fetch Data</button>
     </form>
 
@@ -84,24 +100,30 @@
         require_once __DIR__ . '/vendor/autoload.php';
         use App\Scraper;
         use App\Xml\Generator;
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['url'])) {
-            $url = trim($_POST['url']);
+        use GuzzleHttp\Exception\GuzzleException;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['domain'])) {
+            $url = trim($_POST['domain']);
 
             try {
+                // Scraper logic
                 $scraper = new Scraper();
                 $data = $scraper->scrape($url);
 
+                // XML generation logic
                 $generator = new Generator();
                 $xmlOutput = $generator->generate($data);
 
-                // Scraper'daki getOutputForDomain fonksiyonunu kullanarak dosya adını al
+                // Save the XML to a file
                 $fileName = $scraper->getOutputForDomain($url);
-
                 file_put_contents($fileName, $xmlOutput);
-                echo "XML file created: <a href='$fileName'>$fileName</a>";
+
+                // Display the result
+                echo "<p>XML file created: <a href='$fileName'>$fileName</a></p>";
             } catch (Exception $e) {
                 echo "An error occurred: " . $e->getMessage();
-            } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            } catch (GuzzleException $e) {
+                echo "A Guzzle error occurred: " . $e->getMessage();
             }
         }
         ?>
