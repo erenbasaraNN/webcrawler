@@ -26,7 +26,6 @@ class AzjmCrawler extends BaseCrawler
             ];
         }
 
-        // Handle the regular issue format
         preg_match('/Vol\s*(\d+),\s*No\s*(\d+)\s*\((\d{4})\)/', $headerText, $matches);
 
         return [
