@@ -64,7 +64,7 @@ class AzjmCrawler extends BaseCrawler
         if (!str_ends_with($link, '.pdf')) {
             return null;
         }
-        return str_starts_with($link, 'http') ? $link : 'https://azjm.org/' . ltrim($link, '/');
+        return str_starts_with($link, 'http') ? $link : 'https://azjm.org/volumes/' . ltrim($link, '/');
     }
 
     public function getAuthors(SymfonyCrawler $row): array

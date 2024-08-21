@@ -59,7 +59,7 @@ class PsikologCrawler extends BaseCrawler {
             $cleanedEnglishPdfPath = $cleanPdfPath($englishPdfPath);
             $pdfUrls[] = 'https://psikolog.org.tr/' . $cleanedEnglishPdfPath;
         }
-        return $pdfUrls[0];
+        return implode(' , ', $pdfUrls);
     }
 
 
