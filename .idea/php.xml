@@ -98,6 +98,10 @@
       <path value="$PROJECT_DIR$/src/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/src/vendor/setasign/fpdf" />
+      <path value="$PROJECT_DIR$/src/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/src/vendor/tecnickcom/tcpdf" />
+      <path value="$PROJECT_DIR$/src/vendor/setasign/fpdi-tcpdf" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

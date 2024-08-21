@@ -1,6 +1,10 @@
 <?php
 namespace App\Crawlers;
 
+use Exception;
+use GuzzleHttp\Client;
+use App\Services\MergePDF;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 use App\Scraper;
 
@@ -38,6 +42,9 @@ class PsikologCrawler extends BaseCrawler {
     }
 
 
+    /**
+     * @throws Exception
+     */
     public function getPdfUrl(SymfonyCrawler $row): ?string {
         $turkishPdfPath = $row->filter('a[title="TÜRKÇE PDF"]')->count() ? $row->filter('a[title="TÜRKÇE PDF"]')->attr('href') : null;
         $englishPdfPath = $row->filter('a[title="İNGİLİZCE PDF"]')->count() ? $row->filter('a[title="İNGİLİZCE PDF"]')->attr('href') : null;
@@ -51,16 +58,49 @@ class PsikologCrawler extends BaseCrawler {
         };
 
         $pdfUrls = [];
+        $client = new Client();
+
         if ($turkishPdfPath) {
-            $cleanedTurkishPdfPath = $cleanPdfPath($turkishPdfPath);
-            $pdfUrls[] = 'https://psikolog.org.tr/' . $cleanedTurkishPdfPath;
+            $cleanedTurkishPdfPath = 'https://psikolog.org.tr/' . $cleanPdfPath($turkishPdfPath);
+            if ($this->isUrlValid($client, $cleanedTurkishPdfPath)) {
+                $pdfUrls[] = $cleanedTurkishPdfPath;
+            }
         }
+
         if ($englishPdfPath) {
-            $cleanedEnglishPdfPath = $cleanPdfPath($englishPdfPath);
-            $pdfUrls[] = 'https://psikolog.org.tr/' . $cleanedEnglishPdfPath;
+            $cleanedEnglishPdfPath = 'https://psikolog.org.tr/' . $cleanPdfPath($englishPdfPath);
+            if ($this->isUrlValid($client, $cleanedEnglishPdfPath)) {
+                $pdfUrls[] = $cleanedEnglishPdfPath;
+            }
         }
-        return implode(' , ', $pdfUrls);
+
+        if (count($pdfUrls) > 1) {
+            $mergePdf = new MergePDF();
+            return $mergePdf->merge($pdfUrls[0], $pdfUrls[1]);
+        } elseif (count($pdfUrls) === 1) {
+            return $pdfUrls[0];
+        } else {
+            return null;
+        }
     }
+
+    /**
+     * Check if the URL returns a 200 OK status code
+     *
+     * @param Client $client
+     * @param string $url
+     * @return bool
+     */
+    private function isUrlValid(Client $client, string $url): bool {
+        try {
+            $response = $client->head($url);
+            return $response->getStatusCode() === 200;
+        } catch (Exception) {
+            return false;
+        } catch (GuzzleException) {
+        }
+    }
+
 
 
     public function getVolume(): ?string {

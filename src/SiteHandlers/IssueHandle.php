@@ -2,14 +2,14 @@
 
 namespace App\SiteHandlers;
 
-use App\Crawlers\Models\Issue;
 use App\Crawlers\AzjmCrawler;
 use App\Crawlers\OsmanliMirasCrawler;
 use App\Crawlers\PsikologCrawler;
 use App\Crawlers\YeditepeCrawler;
 use App\Enums\Domain;
-use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
+use App\Models\Issue;
 use Exception;
+use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
 class IssueHandle
 {

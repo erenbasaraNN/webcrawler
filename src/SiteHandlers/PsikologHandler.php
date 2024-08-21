@@ -2,11 +2,11 @@
 
 namespace App\SiteHandlers;
 
-use App\Crawlers\Models\Issue;
 use App\Http\Client;
-use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
-use GuzzleHttp\Exception\GuzzleException;
+use App\Models\Issue;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Component\DomCrawler\Crawler as SymfonyCrawler;
 
 class PsikologHandler implements SiteHandlerInterface
 {

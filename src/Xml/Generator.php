@@ -2,8 +2,8 @@
 
 namespace App\Xml;
 
-use App\Crawlers\Models\Article;
-use App\Crawlers\Models\Issue;
+use App\Models\Article;
+use App\Models\Issue;
 use SimpleXMLElement;
 
 class Generator {

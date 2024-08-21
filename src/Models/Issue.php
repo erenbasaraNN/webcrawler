@@ -1,5 +1,5 @@
 <?php
-namespace App\Crawlers\Models;
+namespace App\Models;
 
 class Issue
 {

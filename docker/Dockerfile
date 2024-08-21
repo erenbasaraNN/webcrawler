@@ -9,7 +9,10 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     curl \
-    && docker-php-ext-install pdo pdo_mysql mbstring xml curl
+    && docker-php-ext-install pdo pdo_mysql mbstring xml curl \
+    && docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl
+RUN apt-get update && apt-get install -y pdftk
 
 # Composer'ı indirip kuruyoruz
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
