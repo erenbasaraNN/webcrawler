@@ -91,6 +91,7 @@
             <option value="https://psikolog.org.tr/yayinlar/turk-psikoloji-dergisi">Psikolog.org</option>
             <option value="https://www.osmanlimirasi.net/arsiv.html">Osmanlı Mirasi</option>
             <option value="https://globalmediajournaltr.yeditepe.edu.tr/tr/tum-sayilar">Yeditepe EDU</option>
+            <option value="https://isahlakidergisi.com/sayilar">Is Ahlaki</option>
         </select>
         <button type="submit">Fetch Data</button>
     </form>

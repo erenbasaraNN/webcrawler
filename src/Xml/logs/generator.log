@@ -1,0 +1,17 @@
+[2024-08-28T14:47:35.558020+00:00] xml_generator.INFO: Missing PdfUrl: 1 [] []
+[2024-08-28T14:47:35.558989+00:00] xml_generator.INFO: Missing Title: 0 [] []
+[2024-08-28T14:47:35.559084+00:00] xml_generator.INFO: Missing Authors: 0 [] []
+[2024-08-28T14:47:35.559147+00:00] xml_generator.INFO: Missing FirstPage: 2 [] []
+[2024-08-28T14:47:35.559213+00:00] xml_generator.INFO: Missing LastPage: 2 [] []
+[2024-08-28T14:47:35.559271+00:00] xml_generator.INFO: Missing Abstract: 2 [] []
+[2024-08-28T14:47:35.559416+00:00] xml_generator.INFO: Missing Keywords: 3 [] []
+
+
+
+[2024-08-28T15:09:31.638034+00:00] xml_generator.INFO: Missing PdfUrl: 1 [] []
+[2024-08-28T15:09:31.639283+00:00] xml_generator.INFO: Missing Title: 0 [] []
+[2024-08-28T15:09:31.639352+00:00] xml_generator.INFO: Missing Authors: 0 [] []
+[2024-08-28T15:09:31.639415+00:00] xml_generator.INFO: Missing FirstPage: 1 [] []
+[2024-08-28T15:09:31.639469+00:00] xml_generator.INFO: Missing LastPage: 1 [] []
+[2024-08-28T15:09:31.639522+00:00] xml_generator.INFO: Missing Abstract: 1 [] []
+[2024-08-28T15:09:31.639583+00:00] xml_generator.INFO: Missing Keywords: 2 [] []

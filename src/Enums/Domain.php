@@ -8,4 +8,5 @@ enum Domain: string
     case OSMANLI = 'www.osmanlimirasi.net';
     case YEDITEPE = 'globalmediajournaltr.yeditepe.edu.tr';
     case AZJM = 'azjm.org';
+    case IS_AHLAKI = 'isahlakidergisi.com';
 }

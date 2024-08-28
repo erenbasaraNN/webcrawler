@@ -5,11 +5,33 @@ namespace App\Xml;
 use App\Models\Article;
 use App\Models\Issue;
 use SimpleXMLElement;
+use Psr\Log\LoggerInterface;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Generator {
+    private LoggerInterface $logger;
+
+    public function __construct() {
+        // Create a logger instance
+        $this->logger = new Logger('xml_generator');
+
+        // Add a file handler to log into a file
+        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/logs/generator.log', Logger::INFO));
+    }
+
     public function generate(array $issues): string {
         $xml = new SimpleXMLElement('<issues/>');
         $skippedIssues = [];
+        $missingDataCounts = [
+            'PdfUrl' => 0,
+            'Title' => 0,
+            'Authors' => 0,
+            'FirstPage' => 0,
+            'LastPage' => 0,
+            'Abstract' => 0,
+            'Keywords' => 0,
+        ];
 
         /** @var Issue $issueData */
         foreach ($issues as $issueData) {
@@ -17,11 +39,11 @@ class Generator {
 
             foreach ($issueData->getArticles() as $articleHandle) {
                 if (empty($articleHandle->getPdfUrl())) {
+                    $missingDataCounts['PdfUrl']++;
                     $skipIssue = true;
                     break;
                 }
             }
-
             if ($skipIssue) {
                 $skippedIssues[] = [
                     'volume' => $issueData->getVolume() ?? 'Unknown',
@@ -43,10 +65,30 @@ class Generator {
                 $articleElement->addChild('fulltext-file', htmlspecialchars($articleHandle->getPdfUrl() ?? ''));
                 $articleElement->addChild('firstpage', htmlspecialchars($articleHandle->getFirstPage() ?? ''));
                 $articleElement->addChild('lastpage', htmlspecialchars($articleHandle->getLastPage() ?? ''));
+
+                if (empty($articleHandle->getTitle())) {
+                    $missingDataCounts['Title']++;
+                }
+
+                if (empty($articleHandle->getFirstPage())) {
+                    $missingDataCounts['FirstPage']++;
+                }
+
+                if (empty($articleHandle->getLastPage())) {
+                    $missingDataCounts['LastPage']++;
+                }
+
+                if (empty($articleHandle->getAbstract())) {
+                    $missingDataCounts['Abstract']++;
+                }
+
+                if (empty($articleHandle->getKeywords())) {
+                    $missingDataCounts['Keywords']++;
+                }
+
                 $articleElement->addChild('primary-language', htmlspecialchars($articleHandle->getPrimaryLanguage() ?? ''));
 
                 $translationsElement = $articleElement->addChild('translations');
-
                 $translationElement = $translationsElement->addChild('translation');
                 $translationElement->addChild('locale', 'tr');
                 $translationElement->addChild('title', htmlspecialchars($articleHandle->getTitle() ?? ''));
@@ -70,11 +112,11 @@ class Generator {
                         $authorElement->addChild('lastname', htmlspecialchars($author['lastName'] ?? ''));
                     }
                 } else {
+                    $missingDataCounts['Authors']++;
                     $authorsElement->addChild('author', 'BURAYI DOLDUR');
                 }
             }
         }
-
         if (!empty($skippedIssues)) {
             $skippedElement = $xml->addChild('skipped_issues');
             foreach ($skippedIssues as $skippedIssue) {
@@ -83,6 +125,12 @@ class Generator {
                 $issueElement->addChild('year', htmlspecialchars($skippedIssue['year']));
                 $issueElement->addChild('number', htmlspecialchars($skippedIssue['number']));
             }
+        }
+
+
+        // Log missing data counts
+        foreach ($missingDataCounts as $key => $count) {
+            $this->logger->info("Missing $key: $count");
         }
 
         $dom = dom_import_simplexml($xml)->ownerDocument;

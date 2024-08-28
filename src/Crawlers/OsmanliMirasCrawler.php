@@ -78,8 +78,8 @@ class OsmanliMirasCrawler extends BaseCrawler {
                 $firstName = implode(' ', $nameParts);
 
                 $authors[] = [
-                    'firstname' => $firstName,
-                    'lastname' => $lastName,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
                 ];
             }
         });

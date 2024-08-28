@@ -4,10 +4,10 @@ namespace App\Models;
 
 class Article
 {
-    private string $title;
+    private ?string $title;
     private ?string $en_title;
     private ?string $abstract;
-    private array $authors;
+    private ?array $authors;
     private ?string $pdfUrl;
     private ?string $firstPage;
     private ?string $lastPage;
@@ -18,10 +18,10 @@ class Article
 
 
     public function __construct(
-        string $title,
+        ?string $title,
         ?string $en_title,
         ?string $abstract,
-        array $authors,
+        ?array $authors,
         ?string $pdfUrl,
         ?string $firstPage,
         ?string $lastPage,
@@ -43,12 +43,12 @@ class Article
         $this->en_keywords = $en_keywords;
     }
 
-    public function getTitle(): string { return $this->title; }
+    public function getTitle(): ?string { return $this->title; }
     public function getEnglishTitle(): ?string { return $this->en_title; }
     public function getEnglishAbstract(): ?string { return $this->en_abstract; }
     public function getEnglishKeywords(): ?string { return $this->en_keywords; }
     public function getAbstract(): ?string { return $this->abstract; }
-    public function getAuthors(): array { return $this->authors; }
+    public function getAuthors(): ?array { return $this->authors; }
     public function getPdfUrl(): ?string { return $this->pdfUrl; }
     public function getFirstPage(): ?string { return $this->firstPage; }
     public function getLastPage(): ?string { return $this->lastPage; }

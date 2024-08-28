@@ -3,6 +3,7 @@
 namespace App\SiteHandlers;
 
 use App\Crawlers\AzjmCrawler;
+use App\Crawlers\IsAhlakiCrawler;
 use App\Crawlers\OsmanliMirasCrawler;
 use App\Crawlers\PsikologCrawler;
 use App\Crawlers\YeditepeCrawler;
@@ -36,13 +37,14 @@ class ArticleHandle
         return new Article($title, $en_title, $abstract, $authors, $pdfUrl, $firstPage, $lastPage, $keywords, $primaryLanguage,$en_abstract, $en_keywords);
     }
 
-    private function getCrawlerForDomain(Domain $domain, SymfonyCrawler $articleCrawler): AzjmCrawler|PsikologCrawler|OsmanliMirasCrawler|YeditepeCrawler
+    private function getCrawlerForDomain(Domain $domain, SymfonyCrawler $articleCrawler): AzjmCrawler|PsikologCrawler|OsmanliMirasCrawler|YeditepeCrawler|IsAhlakiCrawler
     {
         return match ($domain) {
             Domain::PSIKOLOG => new PsikologCrawler($articleCrawler),
             Domain::OSMANLI => new OsmanliMirasCrawler($articleCrawler),
             Domain::YEDITEPE => new YeditepeCrawler($articleCrawler),
             Domain::AZJM => new AzjmCrawler($articleCrawler),
+            Domain::IS_AHLAKI => new IsAhlakiCrawler($articleCrawler),
         };
     }
 }

@@ -97,6 +97,8 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/setasign/fpdi" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/setasign/fpdi-tcpdf" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/tecnickcom/tcpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/psr/log" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
