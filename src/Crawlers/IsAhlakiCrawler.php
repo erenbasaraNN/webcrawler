@@ -53,21 +53,17 @@ class IsAhlakiCrawler extends BaseCrawler {
     }
 
     public function getKeywords(SymfonyCrawler $row): ?string {
-        // Get all 'a' tags inside the div with id 'main-area'
         $keywords = $row->filterXPath('//div[@id="main-area"]//a')->each(function (SymfonyCrawler $node) {
-            return trim($node->text());  // Extract the text from each 'a' tag
+            return trim($node->text());
         });
 
-        // Join all keywords into a single string, separated by commas
         return !empty($keywords) ? implode(', ', $keywords) : null;
     }
 
 
     public function getPdfUrl(SymfonyCrawler $row): ?string {
-        // Count the number of dd elements
         $ddCount = $row->filterXPath('//dl[@class="description-item"]//dd')->count();
 
-        // Determine the correct dd based on the count
         $xpath = $ddCount == 7 ? "//dl[@class='description-item']//dd[4]//a/@href" : "//dl[@class='description-item']//dd[5]//a/@href";
 
         return $this->safeFilterTextXPath($xpath);
@@ -75,16 +71,14 @@ class IsAhlakiCrawler extends BaseCrawler {
 
 
     public function getFirstPage(SymfonyCrawler $row): ?string {
-        // Count the number of dd elements
         $ddCount = $row->filterXPath('//dl[@class="description-item"]//dd')->count();
 
-        // Determine the correct dd based on the count
         $xpath = $ddCount == 7 ? '//dl[@class="description-item"]//dd[3]' : '//dl[@class="description-item"]//dd[4]';
 
         $text = $this->safeFilterTextXPath($xpath);
 
         if ($text !== null && preg_match('/(\d+)-\d+/', $text, $matches)) {
-            return $matches[1];  // Extract the first page
+            return $matches[1];
         }
 
         return null;
@@ -92,16 +86,14 @@ class IsAhlakiCrawler extends BaseCrawler {
 
 
     public function getLastPage(SymfonyCrawler $row): ?string {
-        // Count the number of dd elements
         $ddCount = $row->filterXPath('//dl[@class="description-item"]//dd')->count();
 
-        // Determine the correct dd based on the count
         $xpath = $ddCount == 7 ? '//dl[@class="description-item"]//dd[3]' : '//dl[@class="description-item"]//dd[4]';
 
         $text = $this->safeFilterTextXPath($xpath);
 
         if ($text !== null && preg_match('/\d+-(\d+)/', $text, $matches)) {
-            return $matches[1];  // Extract the last page
+            return $matches[1];
         }
 
         return null;
@@ -112,20 +104,15 @@ class IsAhlakiCrawler extends BaseCrawler {
     public function getAuthors(SymfonyCrawler $row): array {
         $authors = [];
 
-        // Target the first <dd> inside the <dl> with class "description-item"
         $row->filterXPath('//dl[@class="description-item"]//dd[1]//a')->each(function (SymfonyCrawler $node) use (&$authors) {
             $authorText = trim($node->text());
 
-            // Check if there is a comma
             if (str_contains($authorText, ',')) {
-                // Split the authorText at the comma and take the part before the comma (author's name)
                 $authorName = explode(',', $authorText)[0];
             } else {
-                // If there is no comma, take the entire text as the author's name
                 $authorName = $authorText;
             }
 
-            // Split the name into parts (first and last names)
             $nameParts = explode(' ', trim($authorName));
             $lastName = array_pop($nameParts);
             $firstName = implode(' ', $nameParts);

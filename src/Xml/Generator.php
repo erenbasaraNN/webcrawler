@@ -13,10 +13,8 @@ class Generator {
     private LoggerInterface $logger;
 
     public function __construct() {
-        // Create a logger instance
         $this->logger = new Logger('xml_generator');
 
-        // Add a file handler to log into a file
         $this->logger->pushHandler(new StreamHandler(__DIR__ . '/logs/generator.log', Logger::INFO));
     }
 
@@ -128,7 +126,6 @@ class Generator {
         }
 
 
-        // Log missing data counts
         foreach ($missingDataCounts as $key => $count) {
             $this->logger->info("Missing $key: $count");
         }
