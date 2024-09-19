@@ -75,13 +75,14 @@ class PsikologCrawler extends BaseCrawler {
         }
 
         if (count($pdfUrls) > 1) {
-            $mergePdf = new MergePDF();
-            return $mergePdf->merge($pdfUrls[0], $pdfUrls[1]);
-        } elseif (count($pdfUrls) === 1) {
-            return $pdfUrls[0];
-        } else {
-            return null;
+            return (new MergePDF())->merge($pdfUrls[0], $pdfUrls[1]);
         }
+
+        if (count($pdfUrls) === 1) {
+            return $pdfUrls[0];
+        }
+
+        return null;
     }
 
     /**

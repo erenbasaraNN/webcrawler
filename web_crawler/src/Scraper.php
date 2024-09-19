@@ -29,9 +29,7 @@ class Scraper {
      */
     public function scrape(string $url): array {
         $domain = parse_url($url, PHP_URL_HOST);
-        $handler = $this->getHandlerForDomain($domain);
-
-        return $handler->handle($url);
+        return $this->getHandlerForDomain($domain)->handle($url);
     }
 
     /**
