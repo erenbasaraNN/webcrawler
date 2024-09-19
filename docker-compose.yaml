@@ -10,8 +10,7 @@ services:
       - ./web_crawler/docker/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     ports:
       - "8080:80"
-    environment:
-      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=42815"
+    environment: { XDEBUG_CONFIG: "client_host=host.docker.internal client_port=42815" , YTLABS_PATH: "yt.com.tr/" }
     networks:
       - webnet
 

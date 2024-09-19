@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraper Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="../Assets/styles/base.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" id="scraperForm">
+    <h1>Web Scraper</h1>
+    <form method="get" action="Templates/loading.html">
+        <label for="domain">Please select a site.</label>
+        <select id="domain" name="domain" required>
+            <option value="https://azjm.org/volumes.html">Azerbaijan</option>
+            <option value="https://psikolog.org.tr/yayinlar/turk-psikoloji-dergisi">Psikolog.org</option>
+            <option value="https://www.osmanlimirasi.net/arsiv.html">Osmanlı Mirasi</option>
+            <option value="https://globalmediajournaltr.yeditepe.edu.tr/tr/tum-sayilar">Yeditepe EDU</option>
+            <option value="https://isahlakidergisi.com/sayilar">Is Ahlaki</option>
+        </select>
+        <button type="submit">Fetch Data</button>
+    </form>
+
+    <div class="response-message">
+        <?php echo $response; ?>
+    </div>
+</div>
+
+</body>
+</html>

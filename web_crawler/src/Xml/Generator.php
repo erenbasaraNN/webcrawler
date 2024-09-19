@@ -9,17 +9,25 @@ use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class Generator {
+class Generator
+{
     private LoggerInterface $logger;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->logger = new Logger('xml_generator');
 
         $this->logger->pushHandler(new StreamHandler(__DIR__ . '/logs/generator.log', Logger::INFO));
     }
 
-    public function generate(array $issues): string {
-        $xml = new SimpleXMLElement('<issues/>');
+    public function generate(array $issues): string
+    {
+        // Create the root element <journal>
+        $xml = new SimpleXMLElement('<journal/>');
+
+        // Add the <issues> element as a child of <journal>
+        $issuesElement = $xml->addChild('issues');
+
         $skippedIssues = [];
         $missingDataCounts = [
             'PdfUrl' => 0,
@@ -51,7 +59,7 @@ class Generator {
                 continue;
             }
 
-            $issue = $xml->addChild('issue');
+            $issue = $issuesElement->addChild('issue');
             $issue->addChild('volume', htmlspecialchars($issueData->getVolume() ?? ''));
             $issue->addChild('year', htmlspecialchars($issueData->getYear() ?? ''));
             $issue->addChild('number', htmlspecialchars($issueData->getNumber() ?? 'Özel Sayı'));
@@ -115,8 +123,9 @@ class Generator {
                 }
             }
         }
+
         if (!empty($skippedIssues)) {
-            $skippedElement = $xml->addChild('skipped_issues');
+            $skippedElement = $issuesElement->addChild('skipped_issues');
             foreach ($skippedIssues as $skippedIssue) {
                 $issueElement = $skippedElement->addChild('issue');
                 $issueElement->addChild('volume', htmlspecialchars($skippedIssue['volume']));
@@ -124,7 +133,6 @@ class Generator {
                 $issueElement->addChild('number', htmlspecialchars($skippedIssue['number']));
             }
         }
-
 
         foreach ($missingDataCounts as $key => $count) {
             $this->logger->info("Missing $key: $count");

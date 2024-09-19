@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use Exception;
+use RuntimeException;
 
 class MergePDF
 {
-    private $logFile;
+    private string $logFile;
 
     public function __construct()
     {
@@ -14,7 +15,7 @@ class MergePDF
         $this->logFile = '/tmp/mergepdf.log';
     }
 
-    private function log(string $message)
+    private function log(string $message): void
     {
         file_put_contents($this->logFile, $message . PHP_EOL, FILE_APPEND);
     }
@@ -68,7 +69,7 @@ class MergePDF
 
         if ($pdfContent === false) {
             $this->log("Failed to download PDF from $pdfUrl");
-            throw new Exception("Failed to download PDF from $pdfUrl");
+            throw new RuntimeException("Failed to download PDF from $pdfUrl");
         }
 
         file_put_contents($tempPdfPath, $pdfContent);
@@ -85,7 +86,17 @@ class MergePDF
      */
     private function mergeWithPdftk(array $pdfPaths): string
     {
-        $mergedPdfPath = tempnam('/tmp', 'merged_pdf_') . '.pdf';
+        // Define the output directory
+        $outputDir = '/var/tmp/web_crawler/merged_pdf/';
+
+        // Ensure the directory exists
+        if (!is_dir($outputDir) && !mkdir($outputDir, 0777, true) && !is_dir($outputDir)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $outputDir));
+        }
+
+        // Generate a unique merged PDF name directly with the '.pdf' extension
+        $pdfSiteLink = 'merged_pdf_' . bin2hex(random_bytes(5)) . '.pdf';
+        $mergedPdfPath = $outputDir . $pdfSiteLink;
 
         // Build the PDFTK command to merge PDFs
         $command = 'pdftk ' . implode(' ', $pdfPaths) . " cat output $mergedPdfPath";
@@ -93,13 +104,14 @@ class MergePDF
         exec($command, $output, $returnCode);
 
         if ($returnCode !== 0) {
-            throw new Exception("PDFTK merging failed.");
+            throw new RuntimeException("PDFTK merging failed.");
         }
 
         $this->log("PDFs merged successfully using PDFTK to: $mergedPdfPath");
 
-        return $mergedPdfPath;
+        return $pdfSiteLink;
     }
+
 
     /**
      * Deletes the temporary PDF files after merging.

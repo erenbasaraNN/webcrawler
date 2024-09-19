@@ -1,78 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scraper Interface</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-    <link href="Assets/styles/base.css" rel="stylesheet">
-</head>
-<body>
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-<div class="container" id="scraperForm">
-    <h1>Web Scraper</h1>
-    <form method="post" action="loading.php">
-        <label for="domain">Please select a site.</label>
-        <select id="domain" name="domain" required>
-            <option value="https://azjm.org/volumes.html">Azerbaijan</option>
-            <option value="https://psikolog.org.tr/yayinlar/turk-psikoloji-dergisi">Psikolog.org</option>
-            <option value="https://www.osmanlimirasi.net/arsiv.html">Osmanlı Mirasi</option>
-            <option value="https://globalmediajournaltr.yeditepe.edu.tr/tr/tum-sayilar">Yeditepe EDU</option>
-            <option value="https://isahlakidergisi.com/sayilar">Is Ahlaki</option>
-        </select>
-        <button type="submit">Fetch Data</button>
-    </form>
+use App\Scraper;
+use App\Xml\Generator;
+use GuzzleHttp\Exception\GuzzleException;
 
-    <div class="response-message">
-        <?php
-        require_once __DIR__ . '/vendor/autoload.php';
+function handlePostRequest(): string
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['domain'])) {
+        $url = trim($_POST['domain']);
+        return processScraping($url);
+    }
+    return '';
+}
 
-        use App\Scraper;
-        use App\Xml\Generator;
-        use GuzzleHttp\Exception\GuzzleException;
+function processScraping($url): string
+{
+    try {
+        $scraper = new Scraper();
+        $data = $scraper->scrape($url);
 
-        function handlePostRequest()
-        {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['domain'])) {
-                $url = trim($_POST['domain']);
-                processScraping($url);
-            }
+        $generator = new Generator();
+        $xmlOutput = $generator->generate($data);
+        $outputDir = '/var/tmp/web_crawler/xml/';
+        // Ensure the directory exists
+        if (!is_dir($outputDir) && !mkdir($outputDir, 0777, true) && !is_dir($outputDir)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $outputDir));
         }
 
-        function processScraping($url)
-        {
-            try {
-                $scraper = new Scraper();
-                $data = $scraper->scrape($url);
+        $fileName = $outputDir . $scraper->getOutputForDomain($url);
+        file_put_contents($fileName, $xmlOutput);
 
-                $generator = new Generator();
-                $xmlOutput = $generator->generate($data);
+        return displayResult($fileName);
+    } catch (Exception $e) {
+        return displayError("An error occurred: " . $e->getMessage());
+    } catch (GuzzleException $e) {
+        return displayError("A Guzzle error occurred: " . $e->getMessage());
+    }
+}
 
-                $fileName = $scraper->getOutputForDomain($url);
-                file_put_contents($fileName, $xmlOutput);
+function displayResult($fileName): string
+{
+    return "<p>XML file created: <a href='$fileName'>$fileName</a></p>";
+}
 
-                displayResult($fileName);
-            } catch (Exception $e) {
-                displayError("An error occurred: " . $e->getMessage());
-            } catch (GuzzleException $e) {
-                displayError("A Guzzle error occurred: " . $e->getMessage());
-            }
-        }
+function displayError($message): string
+{
+    return "<p>$message</p>";
+}
 
-        function displayResult($fileName): void
-        {
-            echo "<p>XML file created: <a href='$fileName'>$fileName</a></p>";
-        }
+$response = handlePostRequest();
 
-        function displayError($message): void
-        {
-            echo "<p>$message</p>";
-        }
-
-        handlePostRequest();
-        ?>
-    </div>
-</div>
-
-</body>
-</html>
+// Include the HTML file
+include 'Templates/index.html';

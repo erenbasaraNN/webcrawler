@@ -48,12 +48,13 @@ class PsikologCrawler extends BaseCrawler {
     public function getPdfUrl(SymfonyCrawler $row): ?string {
         $turkishPdfPath = $row->filter('a[title="TÜRKÇE PDF"]')->count() ? $row->filter('a[title="TÜRKÇE PDF"]')->attr('href') : null;
         $englishPdfPath = $row->filter('a[title="İNGİLİZCE PDF"]')->count() ? $row->filter('a[title="İNGİLİZCE PDF"]')->attr('href') : null;
+        $ytlabsPath = getenv('YTLABS_PATH');
 
         if (!$turkishPdfPath && !$englishPdfPath) {
             return null;
         }
 
-        $cleanPdfPath = function($path) {
+        $cleanPdfPath = static function($path) {
             return preg_replace('/^\.\.\//', '', $path);
         };
 
@@ -75,7 +76,7 @@ class PsikologCrawler extends BaseCrawler {
         }
 
         if (count($pdfUrls) > 1) {
-            return (new MergePDF())->merge($pdfUrls[0], $pdfUrls[1]);
+            return $ytlabsPath . (new MergePDF())->merge($pdfUrls[0], $pdfUrls[1]);
         }
 
         if (count($pdfUrls) === 1) {
@@ -100,6 +101,7 @@ class PsikologCrawler extends BaseCrawler {
             return false;
         } catch (GuzzleException) {
         }
+
     }
 
 
