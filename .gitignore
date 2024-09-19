@@ -1,2 +1,5 @@
-composer.lock
-vendor
+web_crawler/src/vendor
+.idea
+.gitignore
+*.log
+*.lock

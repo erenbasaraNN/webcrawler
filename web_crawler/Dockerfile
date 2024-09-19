@@ -24,17 +24,18 @@ RUN pecl install xdebug \
 # Apache mod_rewrite modülünü etkinleştiriyoruz
 RUN a2enmod rewrite
 
-# Çalışma dizinini belirliyoruz
-WORKDIR /var/www/html
-
 # Uygulama kodlarını kopyalıyoruz
 COPY ./src /var/www/html
 
-# Composer bağımlılıklarını kuruyoruz
-RUN composer install --no-dev --optimize-autoloader
+# Çalışma dizinini belirliyoruz
+WORKDIR /var/www/html
 
-# Apache varsayılan root klasörünü ayarlıyoruz (isteğe bağlı)
-# Bu adım `COPY ./src /var/www/html` ile birlikte zaten yapıldı
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 777 /var/www/html
+
+USER www-data
+# Composer bağımlılıklarını kuruyoruz
+RUN composer install --optimize-autoloader
 
 # Sunucu başlatıldığında çalıştırılacak komut
 CMD ["apache2-foreground"]
